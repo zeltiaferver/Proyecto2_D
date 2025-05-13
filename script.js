@@ -5,7 +5,7 @@
     const segundoOcteto = document.getElementById("segundoOcteto");
     const tercerOcteto = document.getElementById("tercerOcteto");
     const cuartoOcteto = document.getElementById("cuartoOcteto");
-    const clase = null;
+    let clase = null;
     var correcto= false;
     
 /** 
@@ -19,7 +19,7 @@ botonCalc.addEventListener("click", () => {
     if (validaciones()){
         calcularClase();
         calcularMascara();
-        
+
     }
 
 });
@@ -29,7 +29,7 @@ botonCalc.addEventListener("click", () => {
  * funcion validaciones
  */
 function validaciones(){
-    if (primerOcteto==""|| segundoOcteto==""||tercerOcteto==""||cuartoOcteto==""){
+    if (primerOcteto.value==""|| segundoOcteto.value==""||tercerOcteto.value==""||cuartoOcteto.value==""){
         alert("Rellena todos los campos.");
     }
 
@@ -42,14 +42,19 @@ function mostrarIp(){
 function calcularClase(){
     if(primerOcteto.value < 128){
         clase = "A";
-    }else if( primerOcteto >= 128 && primerOcteto.value < 192){
+        console.log("Clase A");
+    }else if( primerOcteto.value >= 128 && primerOcteto.value < 192){
         clase = "B";
-    }else if(primerOcteto >= 192 && primerOcteto.value < 224){
+        console.log("Clase B");
+    }else if(primerOcteto.value >= 192 && primerOcteto.value < 224){
         clase = "C";
-    }else if(primerOcteto >= 224 && primerOcteto.value < 240){
+        console.log("Clase C");
+    }else if(primerOcteto.value >= 224 && primerOcteto.value < 240){
         clase = "D";
-    }else if(primerOcteto >= 240 && primerOcteto.value < 256){
+        console.log("Clase D");
+    }else if(primerOcteto.value >= 240 && primerOcteto.value < 256){
         clase = "E";
+        console.log("Clase E");
     }
 }
 function calcularMascara(){
