@@ -17,6 +17,7 @@ botonCalc.addEventListener("click", () => {
     //llamar funciones y mostrar info
     ;
     if (validaciones()){
+        mostrarIp();
         calcularClase();
         calcularMascara();
 
@@ -36,7 +37,7 @@ function validaciones(){
     return true;
 }
 function mostrarIp(){
-    
+      document.getElementById("ipRed").textContent =`${primerOcteto.value}.${segundoOcteto.value}.${tercerOcteto.value}.${cuartoOcteto.value}`;
 
 }
 function calcularClase(){
@@ -56,6 +57,7 @@ function calcularClase(){
         clase = "E";
         console.log("Clase E");
     }
+    document.getElementById("clase").textContent =`${clase}`;
 }
 function calcularMascara(){
 
