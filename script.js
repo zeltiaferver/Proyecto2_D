@@ -7,6 +7,7 @@
     const cuartoOcteto = document.getElementById("cuartoOcteto");
     let clase = null;
     let tipo= null;
+    let mascara = null;
     var correcto= false;
     
 /** 
@@ -70,7 +71,28 @@ function calcularClase(){
  * funcion calcular mascara
  */
 function calcularMascara(){
+    switch(clase){
+        case "A":
+            mascara = "255.0.0.0";
 
+            break;
+        case "B":
+            mascara = "255.255.0.0";
+            break;
+        case "C":
+            mascara = "255.255.255.0";
+            break;
+       case "D":
+            mascara = "Sin máscara por defecto";
+            break;
+        case "E":
+            mascara = "Sin máscara por defecto";
+            break;
+        default:
+            mascara = "Error";
+            break;
+
+    }
 }
 /**
  * funcion calcular tipo
