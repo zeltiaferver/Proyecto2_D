@@ -10,6 +10,7 @@
     let mascara = null;
     var correcto= false;
     
+    
 /** 
  * funcionalidad botón
  */
@@ -17,11 +18,12 @@ const botonCalc= document.getElementById("boton1");
 
 botonCalc.addEventListener("click", () => {
     //llamar funciones y mostrar info
-    ;
+    
     if (validaciones()){
         mostrarIp();
         calcularClase();
         calcularMascara();
+        calcularTipo();
 
     }
 
@@ -93,19 +95,20 @@ function calcularMascara(){
             break;
 
     }
+    document.getElementById("mascaraSubred").textContent =`${mascara}`;
 }
 /**
  * funcion calcular tipo
  */
 function calcularTipo(){
-    if(clase="A" &&){
-
-    }else if(clase= "B" &&){
-
-    }else if(clase="C" &&){
-
+    if(clase="A" && primerOcteto===10){
+        tipo="Privada";
+    }else if(clase= "B" && primerOcteto===172 && segundoOcteto>=16 &&segundoOcteto<=31){
+        tipo="Privada";
+    }else if(clase="C" && primerOcteto===192 && segundoOcteto===168){
+        tipo="Privada";
     }else{
-        
+        tipo="Pública";
     }
-
+    document.getElementById("tipoRed").textContent =`${tipo}`;
 }
