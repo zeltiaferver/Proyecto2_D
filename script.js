@@ -5,10 +5,13 @@
     const segundoOcteto = document.getElementById("segundoOcteto");
     const tercerOcteto = document.getElementById("tercerOcteto");
     const cuartoOcteto = document.getElementById("cuartoOcteto");
+    let arrayBits= new Array(32);
+    let numBits = 0;
     let clase = null;
     let tipo= null;
     let mascara = null;
     var correcto= false;
+    let ipRed;
     
     
 /** 
@@ -20,10 +23,11 @@ botonCalc.addEventListener("click", () => {
     //llamar funciones y mostrar info
     
     if (validaciones()){
-        mostrarIp();
+        
         calcularClase();
         calcularMascara();
         calcularTipo();
+        mostrarIpRed();
 
     }
 
@@ -40,13 +44,9 @@ function validaciones(){
 
     return true;
 }
-/**
- * funcion mostrar ip introducida
- */
-function mostrarIp(){
-      document.getElementById("ipRed").textContent =`${primerOcteto.value}.${segundoOcteto.value}.${tercerOcteto.value}.${cuartoOcteto.value}`;
 
-}
+
+
 /**
  * funcion calcular clase de la red
  */
@@ -76,13 +76,16 @@ function calcularMascara(){
     switch(clase){
         case "A":
             mascara = "255.0.0.0";
-
+            ipRed = primerOcteto.value + ".0.0.0";
+            numBits = 8;
             break;
         case "B":
             mascara = "255.255.0.0";
+            ipRed = primerOcteto.value + "." + segundoOcteto.value + ".0.0";
             break;
         case "C":
             mascara = "255.255.255.0";
+            ipRed = primerOcteto.value + "." + segundoOcteto.value + "." + tercerOcteto.value + ".0"; 
             break;
        case "D":
             mascara = "Sin máscara por defecto";
@@ -98,6 +101,14 @@ function calcularMascara(){
     document.getElementById("mascaraSubred").textContent =`${mascara}`;
 }
 /**
+ * funcion mostrar ip introducida
+ */
+function mostrarIpRed(){
+
+    document.getElementById("ipRed").textContent =`${ipRed}`;
+
+}
+/**
  * funcion calcular tipo
  */
 function calcularTipo(){
@@ -111,4 +122,20 @@ function calcularTipo(){
         tipo="Pública";
     }
     document.getElementById("tipoRed").textContent =`${tipo}`;
+}
+
+/**
+ * funcion calcular numero de bits
+ */
+function mostarBits(){
+    let n = 0;
+    while( n < numBits){
+        arrayBits.push("1");
+        n++;
+    }
+    while( n < arrayBits.length){
+        arrayBits.push("0");
+        n++;
+    }
+    console.log(arrayBits);
 }
