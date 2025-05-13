@@ -14,13 +14,13 @@
             <tr>
                 <td>
                     <form id="mascara">
-                        <input type="text" id="primerOcteto">
+                        <input type="number" id="primerOcteto" maxlength="3" min="0"  max="255"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if (this.value < 0) this.value = 0; if (this.value > 255) this.value = 255;">
                         .
-                        <input type="text" id="segundoOcteto">
+                        <input type="number" id="segundoOcteto" maxlength="3" min="0"  max="255"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if (this.value < 0) this.value = 0; if (this.value > 255) this.value = 255;">
                         .
-                        <input type="text" id="tercerOcteto">
+                        <input type="number" id="tercerOcteto" maxlength="3" min="0"  max="255"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if (this.value < 0) this.value = 0; if (this.value > 255) this.value = 255;">
                         .
-                        <input type="text" id="cuartoOcteto">
+                        <input type="number" id="cuartoOcteto" maxlength="3" min="0"  max="255"  oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if (this.value < 0) this.value = 0; if (this.value > 254) this.value = 254;">
                     </form>
                 </td>
             </tr>
@@ -55,7 +55,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button id="recargar">Calcular otra red.</button>
+                    <button id="recargar">Calcular otra red</button>
                 </td>
             </tr>
         </table>
