@@ -25,13 +25,41 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
+                <td colspan="4" >
                     <button id="boton1">Calcular red</button>
                 </td>
             </tr>
         </table>
     </div>
-    <div id="mostrarDatos"></div>
+
+<!-- div Donde se mostrarán los datos. Al principio estará oculto, cuando los datos sean correctos, se mostrará-->
+    <div id="mostrarDatos">
+        <table id="tablaDatos">
+            <th>Datos de la red</th>
+            <tr>
+                <td>Ip de la red:</td>
+                <td id="ipRed">0
+                </td>
+            </tr>
+            <tr>
+                <td>Dirección broadcast:</td>
+                <td id="ipBroadcast">1</td>
+            </tr>
+            <tr>
+                <td>Clase de red:</td>
+                <td id="clase">2</td>
+            </tr>
+            <tr>
+                <td>Tipo de red:</td>
+                <td id="tipo">3</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="recargar">Calcular otra red.</button>
+                </td>
+            </tr>
+        </table>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
