@@ -6,6 +6,7 @@
     const tercerOcteto = document.getElementById("tercerOcteto");
     const cuartoOcteto = document.getElementById("cuartoOcteto");
     let clase = null;
+    let tipo= null;
     var correcto= false;
     
 /** 
@@ -36,10 +37,16 @@ function validaciones(){
 
     return true;
 }
+/**
+ * funcion mostrar ip introducida
+ */
 function mostrarIp(){
       document.getElementById("ipRed").textContent =`${primerOcteto.value}.${segundoOcteto.value}.${tercerOcteto.value}.${cuartoOcteto.value}`;
 
 }
+/**
+ * funcion calcular clase de la red
+ */
 function calcularClase(){
     if(primerOcteto.value < 128){
         clase = "A";
@@ -59,10 +66,24 @@ function calcularClase(){
     }
     document.getElementById("clase").textContent =`${clase}`;
 }
+/**
+ * funcion calcular mascara
+ */
 function calcularMascara(){
 
 }
-
+/**
+ * funcion calcular tipo
+ */
 function calcularTipo(){
+    if(clase="A" &&){
+
+    }else if(clase= "B" &&){
+
+    }else if(clase="C" &&){
+
+    }else{
+        
+    }
 
 }
