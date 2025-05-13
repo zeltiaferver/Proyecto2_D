@@ -1,0 +1,50 @@
+body{
+    background-image: url("/img/fondo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    backdrop-filter: blur(5px);
+    color : white;
+    font-family: 'Courier New', Courier, monospace;
+}
+h1{
+    text-align: center;
+    font-family: Silkscreen;
+    color: white;
+}
+
+button{
+    margin-left: 40%;
+    margin-right: auto;
+}
+
+#entradaIp{
+    display: block;
+    color: white;
+}
+
+#mostmostrarDatos{
+    display: block;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+
+}
+
+#tablaDatos{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+}
+#calculadora{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+
+}
