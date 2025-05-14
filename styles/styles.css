@@ -25,17 +25,18 @@ h1{
     text-shadow: 1px 1px 2px #000;
     
 }
-input[type="number"] {
+input[type="text"] {
   font-family: 'Silkscreen', monospace;
   background-color: #0b0b24;
   color: white;
   font-size: 18px;
    font-size: 14px;
   padding: 6px 8px; 
-  width: 70px;
+  width: 300px;
   padding: 10px;
   border: 3px solid white;
   text-align: center;
+  justify-content: center;
   margin: 5px;
   box-shadow: 2px 2px 0 #000;
 }
