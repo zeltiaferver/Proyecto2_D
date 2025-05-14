@@ -7,12 +7,15 @@
     let tercerOcteto = null;
     let cuartoOcteto = null;
     let arrayBits= new Array(32);
-    let numBits = 0;
+    let numBitsRed = 0;
+    let numBitsHost = 32;
     let clase = null;
     let tipo= null;
     let mascara = null;
+
     var correcto= false;
     let ipRed;
+    let numHosts = 0;
     
     
 /** 
@@ -30,6 +33,8 @@ botonCalc.addEventListener("click", () => {
         calcularTipo();
         mostrarIpRed();
         calcularBroadcast()
+        calcularWildCard();
+        calcularHosts()
 
     }
 
@@ -52,8 +57,6 @@ function obtenerOctetos(){
 /**
  * funcion validaciones
  */
-
-
 function validaciones(){
 
     const pattern = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/;
@@ -107,21 +110,25 @@ function calcularMascara(){
         case "A":
             mascara = "255.0.0.0";
             ipRed = primerOcteto + ".0.0.0";
-            numBits = 8;
+            numBitsRed = 8;
             break;
         case "B":
             mascara = "255.255.0.0";
             ipRed = primerOcteto + "." + segundoOcteto + ".0.0";
+            numBitsRed = 16;
             break;
         case "C":
             mascara = "255.255.255.0";
-            ipRed = primerOcteto + "." + segundoOcteto + "." + tercerOcteto + ".0"; 
+            ipRed = primerOcteto + "." + segundoOcteto + "." + tercerOcteto + ".0";
+            numBitsRed = 24;
             break;
        case "D":
             mascara = "Sin máscara por defecto";
+            ipRed = "Sin dirección de red";
             break;
         case "E":
             mascara = "Sin máscara por defecto";
+            ipRed = "Sin dirección de red";
             break;
         default:
             mascara = "Error";
@@ -130,6 +137,21 @@ function calcularMascara(){
     }
     document.getElementById("mascaraSubred").textContent =`${mascara}`;
 }
+
+/**
+ * Función calcular equipos posibles
+ */
+
+function calcularHosts(){
+    numBitsHost = 32 - numBitsRed;
+    numHosts = Math.pow(2, numBitsHost) - 2;
+
+    if(clase==="D" || clase==="E"){
+        numHosts = "Sin hosts por defecto";}
+   
+    document.getElementById("numHosts").textContent =`${numHosts}`;
+}
+
 /**
  * funcion mostrar ip introducida
  */
@@ -203,16 +225,22 @@ function calcularWildCard(){
     let octeto3 = 0;
     let octeto4 = 0;
 
-    if(clase==="C") {
+    if(clase==="A") {
         octeto2=255;
         octeto3=255;
         octeto4=255;
     }else if(clase==="B"){
         octeto3=255;
         octeto4=255;
-    }else if(clase==="A"){
+    }else if(clase==="C"){
         octeto4=255;
-    }
-    dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;
+    } 
+    
+    if(clase==="D"|| clase==="E"){
+        dirWildCard="Sin wildcard por defecto";
+    }else{
+        dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;}
+
     document.getElementById("wildcard").textContent =`${dirWildCard}`;
 }
+
