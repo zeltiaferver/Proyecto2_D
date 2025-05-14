@@ -37,7 +37,6 @@ botonCalc.addEventListener("click", () => {
         calcularBroadcast()
         calcularWildCard();
         calcularHosts()
-        convertirABinario(primerOcteto);
     }
 
 });
@@ -58,11 +57,6 @@ function obtenerOctetos(){
     
      [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto]= ipCompleta.value.split(".")
 
-    console.log(primerOcteto);
-    console.log(segundoOcteto);
-
-    console.log(tercerOcteto);
-    console.log(cuartoOcteto);
 
 }
 
@@ -99,6 +93,7 @@ function ip(){
     const arrayIp = [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto];
     const arrayIpBinario = [];
     let ipBinario = "";
+    //Convierte a binario
 
     for (let i = 0; i < arrayIp.length; i++) {
         arrayIpBinario.push(convertirABinario(arrayIp[i]));
@@ -118,19 +113,19 @@ function ip(){
 function calcularClase(){
     if(primerOcteto < 128){
         clase = "A";
-        console.log("Clase A");
+        
     }else if( primerOcteto>= 128 && primerOcteto < 192){
         clase = "B";
-        console.log("Clase B");
+        
     }else if(primerOcteto >= 192 && primerOcteto < 224){
         clase = "C";
-        console.log("Clase C");
+        
     }else if(primerOcteto >= 224 && primerOcteto < 240){
         clase = "D";
-        console.log("Clase D");
+       
     }else if(primerOcteto >= 240 && primerOcteto < 256){
         clase = "E";
-        console.log("Clase E");
+       
     }
     document.getElementById("clase").textContent =`${clase}`;
 }
@@ -224,7 +219,7 @@ function mostarBits(){
         arrayBits.push("0");
         n++;
     }
-    console.log(arrayBits);
+
 }
 
 /**
@@ -232,10 +227,12 @@ function mostarBits(){
  */
 function calcularBroadcast(){
     let dirBroadcast = "";
+    let dirBroadcastBinario = "";
     let octetoUno = 255;
     let octetoDos = 255;
     let octetoTres = 255;
     let octetoCuatro = 255;
+    
 
     if(clase==="A"){
         octetoUno= primerOcteto;
@@ -248,6 +245,22 @@ function calcularBroadcast(){
         octetoTres= tercerOcteto;
     }
     dirBroadcast = `${octetoUno}.${octetoDos}.${octetoTres}.${octetoCuatro}`;
+
+    //Convierte a binario 
+
+    let arrayBroadcast = [octetoUno, octetoDos, octetoTres, octetoCuatro];
+    let arrayBroadcastBinario = [];
+
+    for (let i = 0; i < arrayBroadcast.length; i++) {
+        arrayBroadcastBinario.push(convertirABinario(arrayBroadcast[i]));
+    }
+
+    for (let i = 0; i < arrayBroadcastBinario.length; i++) {
+        dirBroadcastBinario += arrayBroadcastBinario[i] + ".";
+    }
+
+    //Imprime
+    document.getElementById("broadcastBinario").textContent = `${dirBroadcastBinario}`;
     document.getElementById("ipBroadcast").textContent =`${dirBroadcast}`;
 }
 /**
@@ -284,9 +297,7 @@ function calcularWildCard(){
  */
 function convertirABinario(octeto) {
     let octetoBinario = octeto.toString(2);
-    console.log("Sin 0: " + octetoBinario);
     octetoBinario = octetoBinario.padStart(8, '0'); // Asegurarse de que tenga 8 bits
-    console.log("Con 0: " + octetoBinario);
     return octetoBinario;
 }
 
