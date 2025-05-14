@@ -35,14 +35,38 @@ botonCalc.addEventListener("click", () => {
 
 
 /**
+
+
+
  * funcion validaciones
+
+
  */
+
+
 function validaciones(){
-    if (primerOcteto.value==""|| segundoOcteto.value==""||tercerOcteto.value==""||cuartoOcteto.value==""){
+
+
+    const pattern = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/;
+
+
+
+
+
+    if (primerOcteto==""|| segundoOcteto==""||tercerOcteto==""||cuartoOcteto==""){
+
+
         alert("Rellena todos los campos.");
+
+
+    }else if(primerOcteto==pattern|| segundoOcteto==pattern||tercerOcteto==pattern||cuartoOcteto==pattern){
+        return true;
     }
 
-    return true;
+
+return true;
+
+
 }
 
 
