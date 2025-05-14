@@ -84,7 +84,7 @@ function validaciones(){
         alert("Introduce campos válidos.")
         return false;
     }
-     primerOcteto = parseInt(primerOcteto);
+    primerOcteto = parseInt(primerOcteto);
     segundoOcteto = parseInt(segundoOcteto);
     tercerOcteto = parseInt(tercerOcteto);
     cuartoOcteto = parseInt(cuartoOcteto);
@@ -126,6 +126,8 @@ function calcularClase(){
  * funcion calcular mascara
  */
 function calcularMascara(){
+
+    
     switch(clase){
         case "A":
             mascara = "255.0.0.0";
@@ -262,5 +264,14 @@ function calcularWildCard(){
         dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;}
 
     document.getElementById("wildcard").textContent =`${dirWildCard}`;
+}
+
+/**
+ * Función para convertir a binario
+ */
+function convertirABinario(octeto) {
+    let octetoBinario = octeto.toString(2);
+    console.log(octetoBinario);
+    return octetoBinario;
 }
 
