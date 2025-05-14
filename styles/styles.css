@@ -59,6 +59,7 @@ input[type="text"] {
   background-color: #281346d5;
   padding: 10px 20px;
   border: 2px solid white;
+  
 }
 
 #entradaIp{
@@ -67,10 +68,9 @@ input[type="text"] {
     font-family: Silkscreen;
 }
 
-#mostmostrarDatos{
-    display: block;
+#mostrarDatos{
+    display: none;
     text-align: center;
-    
     color: white;
     font-family: Silkscreen;
 }

@@ -15,3 +15,17 @@ https://www.freepik.com/free-vector/blue-futuristic-networking-technology_150825
 Punto extra de los colores lo tenemos limitado de otra forma.
 **IDEAS DE MEJORA**
 Terminar la conversión a binario, hacer la dirección broadcast, repasar CSS.
+
+## SESION 2 (14/05/2025)
+**RESUMEN**
+Arreglos en las funcionalidades, rehacer diseño, más funciones, traducción a binario.
+**DIFICULTADES**
+
+**SOLUCIONES**
+
+**FUENTES CONSULTADAS**
+StackOverflow.
+
+**DECISIONES TÉCNICAS**
+
+**IDEAS DE MEJORA**

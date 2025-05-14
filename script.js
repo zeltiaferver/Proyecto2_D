@@ -24,10 +24,11 @@
 const botonCalc= document.getElementById("boton1");
 
 botonCalc.addEventListener("click", () => {
-    //llamar funciones y mostrar info
+    
     obtenerOctetos();
 
     if (validaciones()){
+        cambioDiv();
         ip();
         calcularClase();
         calcularMascara();
@@ -40,6 +41,16 @@ botonCalc.addEventListener("click", () => {
     }
 
 });
+/**
+ * función cambio de panel
+ */
+function cambioDiv(){
+    document.getElementById("entradaIp").style.display = "none";
+    document.getElementById("mostrarDatos").style.display = "block";
+    
+}
+
+
 /**
  * funcion obtener octetos
  */
