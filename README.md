@@ -32,4 +32,4 @@ https://ccnadesdecero.es/que-es-mascara-wildcard/
 **DECISIONES TÉCNICAS**
 Optimización de códifo, cambios en el CSS.
 **IDEAS DE MEJORA**
-Optimizar nombre variables.
+Optimizar nombre variables, terminar binario.
