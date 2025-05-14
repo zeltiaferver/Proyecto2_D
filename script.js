@@ -1,10 +1,11 @@
 /**
  * constantes
  */
-    const primerOcteto = document.getElementById("primerOcteto");
-    const segundoOcteto = document.getElementById("segundoOcteto");
-    const tercerOcteto = document.getElementById("tercerOcteto");
-    const cuartoOcteto = document.getElementById("cuartoOcteto");
+    const ipCompleta = document.getElementById("dirIp");
+    const primerOcteto = null;
+    const segundoOcteto = null;
+    const tercerOcteto = null;
+    const cuartoOcteto = null;
     let arrayBits= new Array(32);
     let numBits = 0;
     let clase = null;
@@ -23,7 +24,7 @@ botonCalc.addEventListener("click", () => {
     //llamar funciones y mostrar info
     
     if (validaciones()){
-        
+        obtenerOctetos();
         calcularClase();
         calcularMascara();
         calcularTipo();
@@ -33,14 +34,20 @@ botonCalc.addEventListener("click", () => {
 
 });
 
+function obtenerOctetos(){
+    
+    const [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto]= ipCompleta.value.split(".")
+
+    console.log(primerOcteto);
+    console.log(segundoOcteto);
+
+    console.log(tercerOcteto);
+    console.log(cuartoOcteto);
+
+}
 
 /**
-
-
-
  * funcion validaciones
-
-
  */
 
 
@@ -75,19 +82,19 @@ return true;
  * funcion calcular clase de la red
  */
 function calcularClase(){
-    if(primerOcteto.value < 128){
+    if(primerOcteto < 128){
         clase = "A";
         console.log("Clase A");
-    }else if( primerOcteto.value >= 128 && primerOcteto.value < 192){
+    }else if( primerOcteto>= 128 && primerOcteto < 192){
         clase = "B";
         console.log("Clase B");
-    }else if(primerOcteto.value >= 192 && primerOcteto.value < 224){
+    }else if(primerOcteto >= 192 && primerOcteto < 224){
         clase = "C";
         console.log("Clase C");
-    }else if(primerOcteto.value >= 224 && primerOcteto.value < 240){
+    }else if(primerOcteto >= 224 && primerOcteto < 240){
         clase = "D";
         console.log("Clase D");
-    }else if(primerOcteto.value >= 240 && primerOcteto.value < 256){
+    }else if(primerOcteto >= 240 && primerOcteto < 256){
         clase = "E";
         console.log("Clase E");
     }
@@ -100,16 +107,16 @@ function calcularMascara(){
     switch(clase){
         case "A":
             mascara = "255.0.0.0";
-            ipRed = primerOcteto.value + ".0.0.0";
+            ipRed = primerOcteto + ".0.0.0";
             numBits = 8;
             break;
         case "B":
             mascara = "255.255.0.0";
-            ipRed = primerOcteto.value + "." + segundoOcteto.value + ".0.0";
+            ipRed = primerOcteto + "." + segundoOcteto + ".0.0";
             break;
         case "C":
             mascara = "255.255.255.0";
-            ipRed = primerOcteto.value + "." + segundoOcteto.value + "." + tercerOcteto.value + ".0"; 
+            ipRed = primerOcteto + "." + segundoOcteto + "." + tercerOcteto + ".0"; 
             break;
        case "D":
             mascara = "Sin máscara por defecto";
