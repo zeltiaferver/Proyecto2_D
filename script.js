@@ -53,30 +53,18 @@ function obtenerOctetos(){
 
 function validaciones(){
 
-
     const pattern = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/;
 
-
-
-
-
     if (primerOcteto==""|| segundoOcteto==""||tercerOcteto==""||cuartoOcteto==""){
-
-
         alert("Rellena todos los campos.");
 
-
-    }else if(primerOcteto==pattern|| segundoOcteto==pattern||tercerOcteto==pattern||cuartoOcteto==pattern){
-        return true;
+    }else if(primerOcteto!==pattern|| segundoOcteto!==pattern||tercerOcteto!==pattern||cuartoOcteto!==pattern){
+        alert("Introduce campos válidos.")
     }
-
-
+   
 return true;
 
-
 }
-
-
 
 /**
  * funcion calcular clase de la red
