@@ -28,6 +28,7 @@ botonCalc.addEventListener("click", () => {
     obtenerOctetos();
 
     if (validaciones()){
+        ip();
         calcularClase();
         calcularMascara();
         calcularTipo();
@@ -79,6 +80,14 @@ function validaciones(){
 return true;
 
 }
+/**
+ * función mostrar ip introducida
+ */
+function ip(){
+    const ipCompleta = document.getElementById("dirIp").value;
+    document.getElementById("ipIntroducida").textContent = `${ipCompleta}`;
+}
+
 
 /**
  * funcion calcular clase de la red
@@ -153,11 +162,11 @@ function calcularHosts(){
 }
 
 /**
- * funcion mostrar ip introducida
+ * funcion mostrar dirección red
  */
 function mostrarIpRed(){
 
-    document.getElementById("ipRed").textContent =`${ipRed}`;
+    document.getElementById("DirRed").textContent =`${ipRed}`;
 
 }
 /**
