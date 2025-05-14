@@ -2,10 +2,10 @@
  * constantes
  */
     const ipCompleta = document.getElementById("dirIp");
-    const primerOcteto = null;
-    const segundoOcteto = null;
-    const tercerOcteto = null;
-    const cuartoOcteto = null;
+    let primerOcteto = null;
+    let segundoOcteto = null;
+    let tercerOcteto = null;
+    let cuartoOcteto = null;
     let arrayBits= new Array(32);
     let numBits = 0;
     let clase = null;
@@ -22,9 +22,9 @@ const botonCalc= document.getElementById("boton1");
 
 botonCalc.addEventListener("click", () => {
     //llamar funciones y mostrar info
-    
+    obtenerOctetos();
+
     if (validaciones()){
-        obtenerOctetos();
         calcularClase();
         calcularMascara();
         calcularTipo();
@@ -33,10 +33,12 @@ botonCalc.addEventListener("click", () => {
     }
 
 });
-
+/**
+ * funcion obtener octetos
+ */
 function obtenerOctetos(){
     
-    const [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto]= ipCompleta.value.split(".")
+     [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto]= ipCompleta.value.split(".")
 
     console.log(primerOcteto);
     console.log(segundoOcteto);
@@ -66,7 +68,10 @@ function validaciones(){
         alert("Introduce campos válidos.")
         return false;
     }
-   
+     primerOcteto = parseInt(primerOcteto);
+    segundoOcteto = parseInt(segundoOcteto);
+    tercerOcteto = parseInt(tercerOcteto);
+    cuartoOcteto = parseInt(cuartoOcteto);
 return true;
 
 }
@@ -136,11 +141,11 @@ function mostrarIpRed(){
  * funcion calcular tipo
  */
 function calcularTipo(){
-    if(clase="A" && primerOcteto===10){
+    if(clase==="A" && primerOcteto===10){
         tipo="Privada";
-    }else if(clase= "B" && primerOcteto===172 && segundoOcteto>=16 &&segundoOcteto<=31){
+    }else if(clase=== "B" && primerOcteto===172 && segundoOcteto>=16 &&segundoOcteto<=31){
         tipo="Privada";
-    }else if(clase="C" && primerOcteto===192 && segundoOcteto===168){
+    }else if(clase==="C" && primerOcteto===192 && segundoOcteto===168){
         tipo="Privada";
     }else{
         tipo="Pública";
