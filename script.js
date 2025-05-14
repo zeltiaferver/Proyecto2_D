@@ -29,6 +29,7 @@ botonCalc.addEventListener("click", () => {
         calcularMascara();
         calcularTipo();
         mostrarIpRed();
+        calcularBroadcast()
 
     }
 
@@ -167,4 +168,51 @@ function mostarBits(){
         n++;
     }
     console.log(arrayBits);
+}
+
+/**
+ * función para calcular la dirección broadcast
+ */
+function calcularBroadcast(){
+    let dirBroadcast = "";
+    let octeto1 = 255;
+    let octeto2 = 255;
+    let octeto3 = 255;
+    let octeto4 = 255;
+
+    if(clase==="A"){
+        octeto1= primerOcteto;
+    }else if(clase==="B"){
+        octeto1= primerOcteto;
+        octeto2= segundoOcteto;
+    }else if(clase==="C"){
+        octeto1= primerOcteto;
+        octeto2= segundoOcteto;
+        octeto3= tercerOcteto;
+    }
+    dirBroadcast = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;
+    document.getElementById("ipBroadcast").textContent =`${dirBroadcast}`;
+}
+/**
+ * función para calcular la dirección wildcard
+ */
+function calcularWildCard(){
+    let dirWildCard = "";
+    let octeto1 = 0;
+    let octeto2 = 0;
+    let octeto3 = 0;
+    let octeto4 = 0;
+
+    if(clase==="C") {
+        octeto2=255;
+        octeto3=255;
+        octeto4=255;
+    }else if(clase==="B"){
+        octeto3=255;
+        octeto4=255;
+    }else if(clase==="A"){
+        octeto4=255;
+    }
+    dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;
+    document.getElementById("wildcard").textContent =`${dirWildCard}`;
 }
