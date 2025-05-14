@@ -1,17 +1,21 @@
 /**
  * constantes
  */
-    const primerOcteto = document.getElementById("primerOcteto");
-    const segundoOcteto = document.getElementById("segundoOcteto");
-    const tercerOcteto = document.getElementById("tercerOcteto");
-    const cuartoOcteto = document.getElementById("cuartoOcteto");
+    const ipCompleta = document.getElementById("dirIp");
+    let primerOcteto = null;
+    let segundoOcteto = null;
+    let tercerOcteto = null;
+    let cuartoOcteto = null;
     let arrayBits= new Array(32);
-    let numBits = 0;
+    let numBitsRed = 0;
+    let numBitsHost = 32;
     let clase = null;
     let tipo= null;
     let mascara = null;
+
     var correcto= false;
     let ipRed;
+    let numHosts = 0;
     
     
 /** 
@@ -20,78 +24,141 @@
 const botonCalc= document.getElementById("boton1");
 
 botonCalc.addEventListener("click", () => {
-    //llamar funciones y mostrar info
     
+    obtenerOctetos();
+
     if (validaciones()){
-        
+        cambioDiv();
+        ip();
         calcularClase();
         calcularMascara();
         calcularTipo();
         mostrarIpRed();
-
+        calcularBroadcast()
+        calcularWildCard();
+        calcularHosts()
     }
 
 });
+/**
+ * función cambio de panel
+ */
+function cambioDiv(){
+    document.getElementById("entradaIp").style.display = "none";
+    document.getElementById("mostrarDatos").style.display = "block";
+    
+}
 
+
+/**
+ * funcion obtener octetos
+ */
+function obtenerOctetos(){
+    
+     [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto]= ipCompleta.value.split(".")
+
+
+}
 
 /**
  * funcion validaciones
  */
 function validaciones(){
-    if (primerOcteto.value==""|| segundoOcteto.value==""||tercerOcteto.value==""||cuartoOcteto.value==""){
+
+    const pattern = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/;
+
+    if (primerOcteto==""|| segundoOcteto==""||tercerOcteto==""||cuartoOcteto==""){
         alert("Rellena todos los campos.");
+        return false;
+
+    }else if(!pattern.test(primerOcteto) ||
+            !pattern.test(segundoOcteto) ||
+            !pattern.test(tercerOcteto) ||
+            !pattern.test(cuartoOcteto)){
+        alert("Introduce campos válidos.")
+        return false;
+    }
+    primerOcteto = parseInt(primerOcteto);
+    segundoOcteto = parseInt(segundoOcteto);
+    tercerOcteto = parseInt(tercerOcteto);
+    cuartoOcteto = parseInt(cuartoOcteto);
+return true;
+
+}
+/**
+ * función mostrar ip introducida
+ */
+function ip(){
+    const ipCompleta = document.getElementById("dirIp").value;
+    const arrayIp = [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto];
+    const arrayIpBinario = [];
+    let ipBinario = "";
+    //Convierte a binario
+
+    for (let i = 0; i < arrayIp.length; i++) {
+        arrayIpBinario.push(convertirABinario(arrayIp[i]));
     }
 
-    return true;
+    for (let i = 0; i < arrayIpBinario.length; i++) {
+        ipBinario += arrayIpBinario[i] + ".";
+    }
+    document.getElementById("redBinario").textContent = `${ipBinario}`;
+    document.getElementById("ipIntroducida").textContent = `${ipCompleta}`;
 }
-
 
 
 /**
  * funcion calcular clase de la red
  */
 function calcularClase(){
-    if(primerOcteto.value < 128){
+    if(primerOcteto < 128){
         clase = "A";
-        console.log("Clase A");
-    }else if( primerOcteto.value >= 128 && primerOcteto.value < 192){
+        
+    }else if( primerOcteto>= 128 && primerOcteto < 192){
         clase = "B";
-        console.log("Clase B");
-    }else if(primerOcteto.value >= 192 && primerOcteto.value < 224){
+        
+    }else if(primerOcteto >= 192 && primerOcteto < 224){
         clase = "C";
-        console.log("Clase C");
-    }else if(primerOcteto.value >= 224 && primerOcteto.value < 240){
+        
+    }else if(primerOcteto >= 224 && primerOcteto < 240){
         clase = "D";
-        console.log("Clase D");
-    }else if(primerOcteto.value >= 240 && primerOcteto.value < 256){
+       
+    }else if(primerOcteto >= 240 && primerOcteto < 256){
         clase = "E";
-        console.log("Clase E");
+       
     }
     document.getElementById("clase").textContent =`${clase}`;
 }
+
 /**
  * funcion calcular mascara
  */
 function calcularMascara(){
+
+    
     switch(clase){
         case "A":
             mascara = "255.0.0.0";
-            ipRed = primerOcteto.value + ".0.0.0";
-            numBits = 8;
+            ipRed = primerOcteto + ".0.0.0";
+            numBitsRed = 8;
             break;
         case "B":
             mascara = "255.255.0.0";
-            ipRed = primerOcteto.value + "." + segundoOcteto.value + ".0.0";
+            ipRed = primerOcteto + "." + segundoOcteto + ".0.0";
+            numBitsRed = 16;
             break;
         case "C":
             mascara = "255.255.255.0";
-            ipRed = primerOcteto.value + "." + segundoOcteto.value + "." + tercerOcteto.value + ".0"; 
+            ipRed = primerOcteto + "." + segundoOcteto + "." + tercerOcteto + ".0";
+            numBitsRed = 24;
             break;
        case "D":
             mascara = "Sin máscara por defecto";
+            ipRed = "Sin dirección de red";
             break;
         case "E":
             mascara = "Sin máscara por defecto";
+            ipRed = "Sin dirección de red";
             break;
         default:
             mascara = "Error";
@@ -100,23 +167,38 @@ function calcularMascara(){
     }
     document.getElementById("mascaraSubred").textContent =`${mascara}`;
 }
+
 /**
- * funcion mostrar ip introducida
+ * Función calcular equipos posibles
+ */
+
+function calcularHosts(){
+    numBitsHost = 32 - numBitsRed;
+    numHosts = Math.pow(2, numBitsHost) - 2;
+
+    if(clase==="D" || clase==="E"){
+        numHosts = "Sin hosts por defecto";}
+   
+    document.getElementById("numHosts").textContent =`${numHosts}`;
+}
+
+/**
+ * funcion mostrar dirección red
  */
 function mostrarIpRed(){
 
-    document.getElementById("ipRed").textContent =`${ipRed}`;
+    document.getElementById("DirRed").textContent =`${ipRed}`;
 
 }
 /**
  * funcion calcular tipo
  */
 function calcularTipo(){
-    if(clase="A" && primerOcteto===10){
+    if(clase==="A" && primerOcteto===10){
         tipo="Privada";
-    }else if(clase= "B" && primerOcteto===172 && segundoOcteto>=16 &&segundoOcteto<=31){
+    }else if(clase=== "B" && primerOcteto===172 && segundoOcteto>=16 &&segundoOcteto<=31){
         tipo="Privada";
-    }else if(clase="C" && primerOcteto===192 && segundoOcteto===168){
+    }else if(clase==="C" && primerOcteto===192 && segundoOcteto===168){
         tipo="Privada";
     }else{
         tipo="Pública";
@@ -137,5 +219,85 @@ function mostarBits(){
         arrayBits.push("0");
         n++;
     }
-    console.log(arrayBits);
+
 }
+
+/**
+ * función para calcular la dirección broadcast
+ */
+function calcularBroadcast(){
+    let dirBroadcast = "";
+    let dirBroadcastBinario = "";
+    let octetoUno = 255;
+    let octetoDos = 255;
+    let octetoTres = 255;
+    let octetoCuatro = 255;
+    
+
+    if(clase==="A"){
+        octetoUno= primerOcteto;
+    }else if(clase==="B"){
+        octetoUno= primerOcteto;
+        octetoDos= segundoOcteto;
+    }else if(clase==="C"){
+        octetoUno= primerOcteto;
+        octetoDos= segundoOcteto;
+        octetoTres= tercerOcteto;
+    }
+    dirBroadcast = `${octetoUno}.${octetoDos}.${octetoTres}.${octetoCuatro}`;
+
+    //Convierte a binario 
+
+    let arrayBroadcast = [octetoUno, octetoDos, octetoTres, octetoCuatro];
+    let arrayBroadcastBinario = [];
+
+    for (let i = 0; i < arrayBroadcast.length; i++) {
+        arrayBroadcastBinario.push(convertirABinario(arrayBroadcast[i]));
+    }
+
+    for (let i = 0; i < arrayBroadcastBinario.length; i++) {
+        dirBroadcastBinario += arrayBroadcastBinario[i] + ".";
+    }
+
+    //Imprime
+    document.getElementById("broadcastBinario").textContent = `${dirBroadcastBinario}`;
+    document.getElementById("ipBroadcast").textContent =`${dirBroadcast}`;
+}
+/**
+ * función para calcular la dirección wildcard
+ */
+function calcularWildCard(){
+    let dirWildCard = "";
+    let octeto1 = 0;
+    let octeto2 = 0;
+    let octeto3 = 0;
+    let octeto4 = 0;
+
+    if(clase==="A") {
+        octeto2=255;
+        octeto3=255;
+        octeto4=255;
+    }else if(clase==="B"){
+        octeto3=255;
+        octeto4=255;
+    }else if(clase==="C"){
+        octeto4=255;
+    } 
+    
+    if(clase==="D"|| clase==="E"){
+        dirWildCard="Sin wildcard por defecto";
+    }else{
+        dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;}
+
+    document.getElementById("wildcard").textContent =`${dirWildCard}`;
+}
+
+/**
+ * Función para convertir a binario
+ */
+function convertirABinario(octeto) {
+    let octetoBinario = octeto.toString(2);
+    octetoBinario = octetoBinario.padStart(8, '0'); // Asegurarse de que tenga 8 bits
+    return octetoBinario;
+}
+

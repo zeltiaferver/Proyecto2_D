@@ -3,32 +3,77 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    backdrop-filter: blur(5px);
     color : white;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Silkscreen;
+    font-size: 20px; 
+
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    backdrop-filter: blur(4px);
+    z-index: -1;
 }
+
 h1{
     text-align: center;
     font-family: Silkscreen;
     color: white;
+    text-shadow: 1px 1px 2px #000;
+    
+}
+input[type="text"] {
+  font-family: 'Silkscreen', monospace;
+  background-color: #0b0b24;
+  color: white;
+  font-size: 18px;
+   font-size: 14px;
+  padding: 6px 8px; 
+  width: 300px;
+  padding: 10px;
+  border: 3px solid white;
+  text-align: center;
+  justify-content: center;
+  margin: 5px;
+  box-shadow: 2px 2px 0 #000;
 }
 
-button{
-    margin-left: 40%;
-    margin-right: auto;
+
+#boton1{
+   display: block;
+  margin: 10px auto;
+  font-family: Silkscreen;
+  color: white;
+  background-color: #281346d5;
+  padding: 10px 20px;
+  border: 2px solid white;
+}
+#boton2{
+   display: block;
+  margin: 10px auto;
+  font-family: Silkscreen;
+  color: white;
+  background-color: #281346d5;
+  padding: 10px 20px;
+  border: 2px solid white;
+  
 }
 
 #entradaIp{
+    padding-top: 2%;
     display: block;
     color: white;
+    font-family: Silkscreen;
 }
 
-#mostmostrarDatos{
-    display: block;
+#mostrarDatos{
+    display: none;
     text-align: center;
-    font-family: 'Courier New', Courier, monospace;
     color: white;
-
+    font-family: Silkscreen;
 }
 
 #tablaDatos{
@@ -36,7 +81,7 @@ button{
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Silkscreen;
     color: white;
 }
 #calculadora{
@@ -44,7 +89,7 @@ button{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Silkscreen;
     color: white;
 
 }
