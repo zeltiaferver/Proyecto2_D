@@ -37,7 +37,7 @@ botonCalc.addEventListener("click", () => {
         calcularBroadcast()
         calcularWildCard();
         calcularHosts()
-
+        convertirABinario(primerOcteto);
     }
 
 });
@@ -96,6 +96,18 @@ return true;
  */
 function ip(){
     const ipCompleta = document.getElementById("dirIp").value;
+    const arrayIp = [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto];
+    const arrayIpBinario = [];
+    let ipBinario = "";
+
+    for (let i = 0; i < arrayIp.length; i++) {
+        arrayIpBinario.push(convertirABinario(arrayIp[i]));
+    }
+
+    for (let i = 0; i < arrayIpBinario.length; i++) {
+        ipBinario += arrayIpBinario[i] + ".";
+    }
+    document.getElementById("redBinario").textContent = `${ipBinario}`;
     document.getElementById("ipIntroducida").textContent = `${ipCompleta}`;
 }
 
@@ -122,6 +134,7 @@ function calcularClase(){
     }
     document.getElementById("clase").textContent =`${clase}`;
 }
+
 /**
  * funcion calcular mascara
  */
@@ -219,22 +232,22 @@ function mostarBits(){
  */
 function calcularBroadcast(){
     let dirBroadcast = "";
-    let octeto1 = 255;
-    let octeto2 = 255;
-    let octeto3 = 255;
-    let octeto4 = 255;
+    let octetoUno = 255;
+    let octetoDos = 255;
+    let octetoTres = 255;
+    let octetoCuatro = 255;
 
     if(clase==="A"){
-        octeto1= primerOcteto;
+        octetoUno= primerOcteto;
     }else if(clase==="B"){
-        octeto1= primerOcteto;
-        octeto2= segundoOcteto;
+        octetoUno= primerOcteto;
+        octetoDos= segundoOcteto;
     }else if(clase==="C"){
-        octeto1= primerOcteto;
-        octeto2= segundoOcteto;
-        octeto3= tercerOcteto;
+        octetoUno= primerOcteto;
+        octetoDos= segundoOcteto;
+        octetoTres= tercerOcteto;
     }
-    dirBroadcast = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;
+    dirBroadcast = `${octetoUno}.${octetoDos}.${octetoTres}.${octetoCuatro}`;
     document.getElementById("ipBroadcast").textContent =`${dirBroadcast}`;
 }
 /**
@@ -271,7 +284,9 @@ function calcularWildCard(){
  */
 function convertirABinario(octeto) {
     let octetoBinario = octeto.toString(2);
-    console.log(octetoBinario);
+    console.log("Sin 0: " + octetoBinario);
+    octetoBinario = octetoBinario.padStart(8, '0'); // Asegurarse de que tenga 8 bits
+    console.log("Con 0: " + octetoBinario);
     return octetoBinario;
 }
 
