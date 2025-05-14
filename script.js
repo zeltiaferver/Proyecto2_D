@@ -57,9 +57,14 @@ function validaciones(){
 
     if (primerOcteto==""|| segundoOcteto==""||tercerOcteto==""||cuartoOcteto==""){
         alert("Rellena todos los campos.");
+        return false;
 
-    }else if(primerOcteto!==pattern|| segundoOcteto!==pattern||tercerOcteto!==pattern||cuartoOcteto!==pattern){
+    }else if(!pattern.test(primerOcteto) ||
+            !pattern.test(segundoOcteto) ||
+            !pattern.test(tercerOcteto) ||
+            !pattern.test(cuartoOcteto)){
         alert("Introduce campos válidos.")
+        return false;
     }
    
 return true;
