@@ -5,7 +5,7 @@ Creación de hmtl, script y css. Primer diseño y primeras funcionalidades de la
 **DIFICULTADES**
 Cálculo de la IP.
 **SOLUCIONES**
-Consula en internet.
+Consulta en internet.
 **FUENTES CONSULTADAS**
 StackOverflow.
 https://www.calculadora-redes.com/
@@ -20,12 +20,16 @@ Terminar la conversión a binario, hacer la dirección broadcast, repasar CSS.
 **RESUMEN**
 Arreglos en las funcionalidades, rehacer diseño, más funciones, traducción a binario.
 **DIFICULTADES**
-
+Cambios de lógica, funciones de JavaScript.
 **SOLUCIONES**
-
+Consulta en internet.
 **FUENTES CONSULTADAS**
 StackOverflow.
-
+Cisco Networking Academy.
+https://developer.mozilla.org/en-US/
+https://www.w3schools.com/js/default.asp
+https://ccnadesdecero.es/que-es-mascara-wildcard/
 **DECISIONES TÉCNICAS**
-
+Optimización de códifo, cambios en el CSS.
 **IDEAS DE MEJORA**
+Optimizar nombre variables.
