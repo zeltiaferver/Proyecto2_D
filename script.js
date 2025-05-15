@@ -16,6 +16,7 @@
     var correcto= false;
     let ipRed;
     let numHosts = 0;
+    let bitsMascara; 
 
     const generarBits= document.getElementById("bitsMascara");
 
@@ -24,7 +25,7 @@
         validaciones();
         
         mascaraDefecto();
-        document.getElementById("bitsMascara").value = `${bits}`;
+        generarBits.value = `${bits}`;
     });
 
     /**
@@ -61,9 +62,10 @@ botonCalc.addEventListener("click", () => {
     
     obtenerOctetos();
 
-    if (validaciones() && validacionesBits()){
+    if (validaciones() && validacionesBits() ){
         cambioDiv();
         ip();
+        obtenerBitsMascara();
         calcularClase();
         calcularMascara();
         calcularTipo();
@@ -94,6 +96,12 @@ function obtenerOctetos(){
 
 }
 
+/**
+ * función para obtener los bits de la mascara
+ */
+function obtenerBitsMascara(){
+    bitsMascara = generarBits.value;
+}
 /**
  * funcion validaciones
  */
@@ -360,3 +368,9 @@ function separarCadena(cadena) {
     return cadenaSeparada;
 }
 
+/**
+ * Funcion para calcular subredes
+ */
+function calcularSubredes(){
+
+}
