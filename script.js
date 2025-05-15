@@ -12,12 +12,47 @@
     let clase = null;
     let tipo= null;
     let mascara = null;
-
+    let bits=null;
     var correcto= false;
     let ipRed;
     let numHosts = 0;
-    
-    
+    let bitsMascara; 
+
+    const generarBits= document.getElementById("bitsMascara");
+
+    generarBits.addEventListener("click", () => {
+        obtenerOctetos();
+        validaciones();
+        
+        mascaraDefecto();
+        generarBits.value = `${bits}`;
+    });
+
+    /**
+     * función generar máscara por defecto
+     */
+     function mascaraDefecto(){
+        calcularClase();
+        
+
+        if( clase === "A"){
+            bits=8;
+            
+        }else if( clase === "B"){
+            bits=16;
+            
+        }else if(clase === "C"){
+            bits=24
+            
+        }else if(clase === "D"){
+            bits=" ";
+        
+        }else if(clase === "E"){
+            bits=" ";
+        };
+        console.log(bits);
+       
+    }
 /** 
  * funcionalidad botón
  */
@@ -27,9 +62,10 @@ botonCalc.addEventListener("click", () => {
     
     obtenerOctetos();
 
-    if (validaciones()){
+    if (validaciones() && validacionesBits() ){
         cambioDiv();
         ip();
+        obtenerBitsMascara();
         calcularClase();
         calcularMascara();
         calcularTipo();
@@ -61,6 +97,12 @@ function obtenerOctetos(){
 }
 
 /**
+ * función para obtener los bits de la mascara
+ */
+function obtenerBitsMascara(){
+    bitsMascara = generarBits.value;
+}
+/**
  * funcion validaciones
  */
 function validaciones(){
@@ -83,27 +125,71 @@ function validaciones(){
     tercerOcteto = parseInt(tercerOcteto);
     cuartoOcteto = parseInt(cuartoOcteto);
 return true;
+}
+    /**
+ * funcion validacion de los bits
+ */
+
+function validacionesBits(){
+    calcularClase();
+    obtenerBitsMascara();
+
+    if (bitsMascara>30 || bitsMascara<8){
+        alert("Introduce un valor de máscara válido.")
+        return false;
+    } else if(clase === "A"){
+        if (bitsMascara>=8 && bitsMascara<16){
+            return true;
+            
+        }  else{
+            alert("La máscara no coincide con la clase de la red.");
+            return false;
+        } 
+            
+    }else if(clase === "B"){
+        if (bitsMascara>=16 && bitsMascara<24){
+            return true;
+        }  else{
+            alert("La máscara no coincide con la clase de la red.");
+            return false;
+        } 
+           
+            
+    }else if(clase === "C"){
+            if (bitsMascara>=24 && bitsMascara<=30){
+            return true;
+        }  else{
+            alert("La máscara no coincide con la clase de la red.");
+            return false;
+        } 
+            
+    } else if(clase === "D" || clase === "E"){
+        if (bitsMascara=" " ){
+            return true;
+        }else if(bitsMascara<=30){
+            return true;
+        } else if(bitsMascara>30){
+        alert("Introduce un valor de máscara válido.")
+        return false;
+        } 
+    }
+    
+
 
 }
 /**
  * función mostrar ip introducida
  */
 function ip(){
-    const ipCompleta = document.getElementById("dirIp").value;
-    const arrayIp = [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto];
-    const arrayIpBinario = [];
+    var ipCompleta = document.getElementById("dirIp").value;
     let ipBinario = "";
-    //Convierte a binario
 
-    for (let i = 0; i < arrayIp.length; i++) {
-        arrayIpBinario.push(convertirABinario(arrayIp[i]));
-    }
-
-    for (let i = 0; i < arrayIpBinario.length; i++) {
-        ipBinario += arrayIpBinario[i] + ".";
-    }
+    console.log( "IP completa: " + ipCompleta);
+    
+    ipBinario = convertirABinario(ipCompleta);
     document.getElementById("redBinario").textContent = `${ipBinario}`;
     document.getElementById("ipIntroducida").textContent = `${ipCompleta}`;
+    
 }
 
 
@@ -128,13 +214,14 @@ function calcularClase(){
        
     }
     document.getElementById("clase").textContent =`${clase}`;
+    return clase;
 }
 
 /**
  * funcion calcular mascara
  */
 function calcularMascara(){
-
+    let mascaraBinario = "";
     
     switch(clase){
         case "A":
@@ -165,6 +252,12 @@ function calcularMascara(){
             break;
 
     }
+    if(mascara !== "Sin máscara por defecto" && mascara !== "Error"){
+        mascaraBinario = convertirABinario(mascara);
+        document.getElementById("mascaraBinario").textContent = `${mascaraBinario}`;
+    }
+
+
     document.getElementById("mascaraSubred").textContent =`${mascara}`;
 }
 
@@ -186,8 +279,10 @@ function calcularHosts(){
  * funcion mostrar dirección red
  */
 function mostrarIpRed(){
-
-    document.getElementById("DirRed").textContent =`${ipRed}`;
+    let ipRedBinario = "";
+    ipRedBinario = convertirABinario(ipRed);
+    document.getElementById("DirBinario").textContent = `${ipRedBinario}`;
+    document.getElementById("DirRed").textContent =`${ipRed}/ ${bitsMascara}`;
 
 }
 /**
@@ -246,18 +341,7 @@ function calcularBroadcast(){
     }
     dirBroadcast = `${octetoUno}.${octetoDos}.${octetoTres}.${octetoCuatro}`;
 
-    //Convierte a binario 
-
-    let arrayBroadcast = [octetoUno, octetoDos, octetoTres, octetoCuatro];
-    let arrayBroadcastBinario = [];
-
-    for (let i = 0; i < arrayBroadcast.length; i++) {
-        arrayBroadcastBinario.push(convertirABinario(arrayBroadcast[i]));
-    }
-
-    for (let i = 0; i < arrayBroadcastBinario.length; i++) {
-        dirBroadcastBinario += arrayBroadcastBinario[i] + ".";
-    }
+    dirBroadcastBinario = convertirABinario(dirBroadcast);
 
     //Imprime
     document.getElementById("broadcastBinario").textContent = `${dirBroadcastBinario}`;
@@ -272,6 +356,7 @@ function calcularWildCard(){
     let octeto2 = 0;
     let octeto3 = 0;
     let octeto4 = 0;
+    let wildcardBinario = "";
 
     if(clase==="A") {
         octeto2=255;
@@ -287,17 +372,74 @@ function calcularWildCard(){
     if(clase==="D"|| clase==="E"){
         dirWildCard="Sin wildcard por defecto";
     }else{
-        dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;}
+        dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;
+        wildcardBinario = convertirABinario(dirWildCard);
+        document.getElementById("wildcardBinario").textContent = `${wildcardBinario}`;
+    }
 
     document.getElementById("wildcard").textContent =`${dirWildCard}`;
 }
-
 /**
- * Función para convertir a binario
+ * funcion calcular hexadecimal
  */
-function convertirABinario(octeto) {
-    let octetoBinario = octeto.toString(2);
-    octetoBinario = octetoBinario.padStart(8, '0'); // Asegurarse de que tenga 8 bits
-    return octetoBinario;
+
+function calcularHexadecimal(cadena) {
+    let cadenaSeparada = separarCadena(cadena);
+    let octetosHexadecimales = [];
+
+    for (let i = 0; i < cadenaSeparada.length; i++) {
+        let octetoHex = cadenaSeparada[i].toString(16).toUpperCase();
+        octetoHex = octetoHex.padStart(2, '0');
+        octetosHexadecimales.push(octetoHex);
+    }
+
+    let resultado = octetosHexadecimales.join('.');
+    console.log("Hexadecimal: " + resultado);
+    
+    return resultado;
 }
 
+
+/**
+ * Función para convertir a binario recibe la cadena en formato decimal
+ * y la convierte a binario, asegurándose de que cada octeto tenga 8 bits.
+ */
+function convertirABinario(cadena) {
+
+    console.log("Cadena original: " + cadena);
+
+    let cadenaSeparada = separarCadena(cadena);
+
+    let cadenaBinaria = "";
+    let octetoBinario = "";
+
+    for (let i = 0; i < cadenaSeparada.length; i++) {
+        octetoBinario = cadenaSeparada[i].toString(2); // Convertir a binario
+        octetoBinario = octetoBinario.padStart(8, '0'); // Asegurarse de que tenga 8 bits)
+        cadenaBinaria += octetoBinario ;
+        if ( i < cadenaSeparada.length - 1){
+            cadenaBinaria += ".";
+        }
+    }
+    return cadenaBinaria;
+}
+
+/**
+ * Función para separar Strings
+ */
+function separarCadena(cadena) {
+    let cadenaSeparada = cadena.split(".");
+
+    console.log("Cadena separada: " + cadenaSeparada);
+    for (let i = 0; i < cadenaSeparada.length; i++) {
+        cadenaSeparada[i] = parseInt(cadenaSeparada[i]); // Convertir cada octeto a número
+    }
+    return cadenaSeparada;
+}
+
+/**
+ * Funcion para calcular subredes
+ */
+function calcularSubredes(){
+
+}
