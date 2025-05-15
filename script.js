@@ -126,8 +126,56 @@ function validaciones(){
     cuartoOcteto = parseInt(cuartoOcteto);
 return true;
 }
+    /**
+ * funcion validacion de los bits
+ */
+
 function validacionesBits(){
+    calcularClase();
+    obtenerBitsMascara();
+
+    if (bitsMascara>30 || bitsMascara<8){
+        alert("Introduce un valor de máscara válido.")
+        return false;
+    } else if(clase === "A"){
+        if (bitsMascara>=8 && bitsMascara<16){
+            return true;
+            
+        }  else{
+            alert("La máscara no coincide con la clase de la red.");
+            return false;
+        } 
+            
+    }else if(clase === "B"){
+        if (bitsMascara>=16 && bitsMascara<24){
+            return true;
+        }  else{
+            alert("La máscara no coincide con la clase de la red.");
+            return false;
+        } 
+           
+            
+    }else if(clase === "C"){
+            if (bitsMascara>=24 && bitsMascara<=30){
+            return true;
+        }  else{
+            alert("La máscara no coincide con la clase de la red.");
+            return false;
+        } 
+            
+    } else if(clase === "D" || clase === "E"){
+        if (bitsMascara=" " ){
+            return true;
+        }else if(bitsMascara<=30){
+            return true;
+        } else if(bitsMascara>30){
+        alert("Introduce un valor de máscara válido.")
+        return false;
+        } 
+    }
     
+
+
 }
 /**
  * función mostrar ip introducida
