@@ -127,7 +127,7 @@ function calcularClase(){
  * funcion calcular mascara
  */
 function calcularMascara(){
-
+    let mascaraBinario = "";
     
     switch(clase){
         case "A":
@@ -158,6 +158,12 @@ function calcularMascara(){
             break;
 
     }
+    if(mascara !== "Sin máscara por defecto" && mascara !== "Error"){
+        mascaraBinario = convertirABinario(mascara);
+        document.getElementById("mascaraBinario").textContent = `${mascaraBinario}`;
+    }
+
+
     document.getElementById("mascaraSubred").textContent =`${mascara}`;
 }
 
@@ -179,7 +185,9 @@ function calcularHosts(){
  * funcion mostrar dirección red
  */
 function mostrarIpRed(){
-
+    let ipRedBinario = "";
+    ipRedBinario = convertirABinario(ipRed);
+    document.getElementById("DirBinario").textContent = `${ipRedBinario}`;
     document.getElementById("DirRed").textContent =`${ipRed}`;
 
 }
@@ -254,6 +262,7 @@ function calcularWildCard(){
     let octeto2 = 0;
     let octeto3 = 0;
     let octeto4 = 0;
+    let wildcardBinario = "";
 
     if(clase==="A") {
         octeto2=255;
@@ -269,7 +278,10 @@ function calcularWildCard(){
     if(clase==="D"|| clase==="E"){
         dirWildCard="Sin wildcard por defecto";
     }else{
-        dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;}
+        dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;
+        wildcardBinario = convertirABinario(dirWildCard);
+        document.getElementById("wildcardBinario").textContent = `${wildcardBinario}`;
+    }
 
     document.getElementById("wildcard").textContent =`${dirWildCard}`;
 }
