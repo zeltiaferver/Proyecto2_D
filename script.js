@@ -89,19 +89,12 @@ return true;
  * función mostrar ip introducida
  */
 function ip(){
-    const ipCompleta = document.getElementById("dirIp").value;
-    const arrayIp = [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto];
-    const arrayIpBinario = [];
+    var ipCompleta = document.getElementById("dirIp").value;
     let ipBinario = "";
-    //Convierte a binario
 
-    for (let i = 0; i < arrayIp.length; i++) {
-        arrayIpBinario.push(convertirABinario(arrayIp[i]));
-    }
-
-    for (let i = 0; i < arrayIpBinario.length; i++) {
-        ipBinario += arrayIpBinario[i] + ".";
-    }
+    console.log( "IP completa: " + ipCompleta);
+    
+    ipBinario = convertirABinario(ipCompleta);
     document.getElementById("redBinario").textContent = `${ipBinario}`;
     document.getElementById("ipIntroducida").textContent = `${ipCompleta}`;
 }
@@ -246,18 +239,7 @@ function calcularBroadcast(){
     }
     dirBroadcast = `${octetoUno}.${octetoDos}.${octetoTres}.${octetoCuatro}`;
 
-    //Convierte a binario 
-
-    let arrayBroadcast = [octetoUno, octetoDos, octetoTres, octetoCuatro];
-    let arrayBroadcastBinario = [];
-
-    for (let i = 0; i < arrayBroadcast.length; i++) {
-        arrayBroadcastBinario.push(convertirABinario(arrayBroadcast[i]));
-    }
-
-    for (let i = 0; i < arrayBroadcastBinario.length; i++) {
-        dirBroadcastBinario += arrayBroadcastBinario[i] + ".";
-    }
+    dirBroadcastBinario = convertirABinario(dirBroadcast);
 
     //Imprime
     document.getElementById("broadcastBinario").textContent = `${dirBroadcastBinario}`;
@@ -293,11 +275,39 @@ function calcularWildCard(){
 }
 
 /**
- * Función para convertir a binario
+ * Función para convertir a binario recibe la cadena en formato decimal
+ * y la convierte a binario, asegurándose de que cada octeto tenga 8 bits.
  */
-function convertirABinario(octeto) {
-    let octetoBinario = octeto.toString(2);
-    octetoBinario = octetoBinario.padStart(8, '0'); // Asegurarse de que tenga 8 bits
-    return octetoBinario;
+function convertirABinario(cadena) {
+
+    console.log("Cadena original: " + cadena);
+
+    let cadenaSeparada = separarCadena(cadena);
+
+    let cadenaBinaria = "";
+    let octetoBinario = "";
+
+    for (let i = 0; i < cadenaSeparada.length; i++) {
+        octetoBinario = cadenaSeparada[i].toString(2); // Convertir a binario
+        octetoBinario = octetoBinario.padStart(8, '0'); // Asegurarse de que tenga 8 bits)
+        cadenaBinaria += octetoBinario ;
+        if ( i < cadenaSeparada.length - 1){
+            cadenaBinaria += ".";
+        }
+    }
+    return cadenaBinaria;
+}
+
+/**
+ * Función para separar Strings
+ */
+function separarCadena(cadena) {
+    let cadenaSeparada = cadena.split(".");
+
+    console.log("Cadena separada: " + cadenaSeparada);
+    for (let i = 0; i < cadenaSeparada.length; i++) {
+        cadenaSeparada[i] = parseInt(cadenaSeparada[i]); // Convertir cada octeto a número
+    }
+    return cadenaSeparada;
 }
 
