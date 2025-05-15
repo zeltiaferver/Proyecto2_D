@@ -33,3 +33,23 @@ https://ccnadesdecero.es/que-es-mascara-wildcard/
 Optimización de códifo, cambios en el CSS.
 **IDEAS DE MEJORA**
 Optimizar nombre variables, terminar binario.
+
+## SESION 3 (15/05/2025)
+**RESUMEN**
+Pide la mascara personaliada y valida que los datos sean correctos
+**DIFICULTADES**
+Conversiones de decimal a binario y de binario a decimal.
+Calcular mascara de redes con mascaras fuera de las por defecto.
+**SOLUCIONES**
+Consulta en internet.
+**FUENTES CONSULTADAS**
+StackOverflow.
+Cisco Networking Academy.
+https://developer.mozilla.org/en-US/
+https://www.w3schools.com/js/default.asp
+https://ccnadesdecero.es/que-es-mascara-wildcard/
+**DECISIONES TÉCNICAS**
+Reformular funciones
+**IDEAS DE MEJORA**
+Realizar los puntos que no hemos hecho hoy.
+Optimizar nombre variables, organizar código.
