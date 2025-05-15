@@ -12,12 +12,46 @@
     let clase = null;
     let tipo= null;
     let mascara = null;
-
+    let bits=null;
     var correcto= false;
     let ipRed;
     let numHosts = 0;
-    
-    
+
+    const generarBits= document.getElementById("bitsMascara");
+
+    generarBits.addEventListener("click", () => {
+        obtenerOctetos();
+        validaciones();
+        
+        mascaraDefecto();
+        document.getElementById("bitsMascara").value = `${bits}`;
+    });
+
+    /**
+     * función generar máscara por defecto
+     */
+     function mascaraDefecto(){
+        calcularClase();
+        
+
+        if( clase === "A"){
+            bits=8;
+            
+        }else if( clase === "B"){
+            bits=16;
+            
+        }else if(clase === "C"){
+            bits=24
+            
+        }else if(clase === "D"){
+            bits=" ";
+        
+        }else if(clase === "E"){
+            bits=" ";
+        };
+        console.log(bits);
+       
+    }
 /** 
  * funcionalidad botón
  */
@@ -27,7 +61,7 @@ botonCalc.addEventListener("click", () => {
     
     obtenerOctetos();
 
-    if (validaciones()){
+    if (validaciones() && validacionesBits()){
         cambioDiv();
         ip();
         calcularClase();
@@ -83,7 +117,9 @@ function validaciones(){
     tercerOcteto = parseInt(tercerOcteto);
     cuartoOcteto = parseInt(cuartoOcteto);
 return true;
-
+}
+function validacionesBits(){
+    
 }
 /**
  * función mostrar ip introducida
@@ -121,6 +157,7 @@ function calcularClase(){
        
     }
     document.getElementById("clase").textContent =`${clase}`;
+    return clase;
 }
 
 /**
