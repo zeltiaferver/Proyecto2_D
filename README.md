@@ -53,3 +53,21 @@ Reformular funciones
 **IDEAS DE MEJORA**
 Realizar los puntos que no hemos hecho hoy.
 Optimizar nombre variables, organizar código.
+
+## SESION 4 (16/05/2025)
+**RESUMEN**
+Reformular errores de la sesión anterior, añadir funcionalidades, optimizar CSS.
+**DIFICULTADES**
+Fucniones de traducción de decimal a binario y a la inversa.
+**SOLUCIONES**
+Debug con console.logs
+**FUENTES CONSULTADAS**
+StackOverflow.
+Cisco Networking Academy.
+https://developer.mozilla.org/en-US/
+https://www.w3schools.com/js/default.asp
+https://ccnadesdecero.es/que-es-mascara-wildcard/
+**DECISIONES TÉCNICAS**
+Termianr, reformular y optimizar las funciones de la sesión anterior.
+**IDEAS DE MEJORA**
+Termianr funciones, añadir funcionalidades extras.
