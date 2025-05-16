@@ -18,6 +18,12 @@
     let numHosts = 0;
     let bitsMascara; 
 
+    //Variables para la prueba
+    let ipBinarioSinPuntos = "";
+    let ipBinario = "";
+    let direccionRedBinario = "";
+    let dirRedDecimal = "";
+
     const generarBits= document.getElementById("bitsMascara");
 
     generarBits.addEventListener("click", () => {
@@ -65,10 +71,16 @@ botonCalc.addEventListener("click", () => {
     if (validaciones() && validacionesBits() ){
         cambioDiv();
         ip();
+        
         obtenerBitsMascara();
         calcularClase();
         calcularMascara();
         calcularTipo();
+
+
+        quitarPuntos();
+        calcularDireccionRed();
+
         mostrarIpRed();
         calcularBroadcast()
         calcularWildCard();
@@ -182,13 +194,53 @@ function validacionesBits(){
  */
 function ip(){
     var ipCompleta = document.getElementById("dirIp").value;
-    let ipBinario = "";
+    //He quitado ipBinario
+    
 
     console.log( "IP completa: " + ipCompleta);
     
     ipBinario = convertirABinario(ipCompleta);
     document.getElementById("redBinario").textContent = `${ipBinario}`;
     document.getElementById("ipIntroducida").textContent = `${ipCompleta}`;
+    
+}
+
+//Funcion para quitar los puntos de la ipBinario
+function quitarPuntos(){
+    for(let i = 0; i < ipBinario.length;i++){
+        if(ipBinario[i]!="."){
+            ipBinarioSinPuntos+=ipBinario[i];
+        }
+    }
+
+    console.log(ipBinario)
+    console.log("Ip sin puntos: " + ipBinarioSinPuntos)
+}
+
+//Funcion de prueba para conseguir dirección de red en binario
+function calcularDireccionRed(){
+    let direccionRed;
+    
+
+    for(let i = 0; i < bitsMascara; i++){
+        direccionRedBinario += ipBinarioSinPuntos[i];
+    }
+
+    
+    while(direccionRedBinario.length <32){
+        direccionRedBinario += "0";
+    }
+
+    console.log("direccion red en binario: " + direccionRedBinario);
+
+
+}
+
+//Función para calcular direccion de red desde direccionRedBinario
+function dirRedDesdeBinario(cadena){
+    let binarioRecibido = cadena;
+    let octetoBinario;
+
     
 }
 
@@ -441,5 +493,7 @@ function separarCadena(cadena) {
  * Funcion para calcular subredes
  */
 function calcularSubredes(){
+
+
 
 }
