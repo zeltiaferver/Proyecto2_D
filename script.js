@@ -1,6 +1,7 @@
 /**
  * constantes
  */
+
     const ipCompleta = document.getElementById("dirIp");
     let primerOcteto = null;
     let segundoOcteto = null;
@@ -21,7 +22,7 @@
     let ipRed;
     let numHosts = 0;
     let bitsMascara; 
-
+    let dirBroadcast = "";
     //Variables para la prueba
     let ipBinarioSinPuntos = "";
     let ipBinario = "";
@@ -89,6 +90,8 @@ botonCalc.addEventListener("click", () => {
         calcularBroadcast()
         calcularWildCard();
         calcularHosts()
+
+        hostMinMax();
     }
 
 });
@@ -199,11 +202,14 @@ function validacionesBits(){
 function ip(){
     var ipCompleta = document.getElementById("dirIp").value;
     console.log( "IP completa: " + ipCompleta);
-    
+    const hex= calcularHexadecimal(ipCompleta)
+
+
     ipBinario = convertirABinario(ipCompleta);
     document.getElementById("redBinario").textContent = `${ipBinario}`;
     document.getElementById("ipIntroducida").textContent = `${ipCompleta}`;
-    
+    document.getElementById("redHexadecimal").textContent = `${hex}`;
+
 }
 
 //Funcion para quitar los puntos de la ipBinario
@@ -387,6 +393,20 @@ function calcularHosts(){
    
     document.getElementById("numHosts").textContent =`${numHosts}`;
 }
+/**
+ * funcion host minimo y host maximo
+ */
+function hostMinMax(){
+    obtenerOctetos(ipCompleta);
+    let min= primerOcteto+"."+segundoOcteto+"."+tercerOcteto+"."+(parseInt(cuartoOcteto) + 1);
+    
+    let [o1, o2, o3, o4]= dirBroadcast.split(".");
+    let max =o1+"."+o2+"."+o3+"."+( o4- 1);
+    
+    
+    document.getElementById("hostMin").textContent =min;
+    document.getElementById("hostMax").textContent =max;
+}
 
 /**
  * funcion mostrar dirección red
@@ -434,7 +454,7 @@ function mostarBits(){
  * función para calcular la dirección broadcast
  */
 function calcularBroadcast(){
-    let dirBroadcast = "";
+    
     let dirBroadcastBinario = "";
     let octetoUno = 255;
     let octetoDos = 255;
@@ -495,7 +515,6 @@ function calcularWildCard(){
 /**
  * funcion calcular hexadecimal
  */
-
 function calcularHexadecimal(cadena) {
     let cadenaSeparada = separarCadena(cadena);
     let octetosHexadecimales = [];
@@ -510,6 +529,8 @@ function calcularHexadecimal(cadena) {
     console.log("Hexadecimal: " + resultado);
     
     return resultado;
+
+
 }
 
 
