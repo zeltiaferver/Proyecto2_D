@@ -71,3 +71,21 @@ https://ccnadesdecero.es/que-es-mascara-wildcard/
 Termianr, reformular y optimizar las funciones de la sesión anterior.
 **IDEAS DE MEJORA**
 Termianr funciones, añadir funcionalidades extras.
+
+## SESION 5 (19/05/2025)
+**RESUMEN**
+Hemos solucionado los errores que arratrábamos de sesiones anteriores. Ahora es funcional.
+**DIFICULTADES**
+La parte de diferenciar la parte host de la de red por colores y mostrar las subredes posibles con sus datos
+**SOLUCIONES**
+Hemos refactorizado el código para que sea más facil leerlo y entenderlo.
+**FUENTES CONSULTADAS**
+StackOverflow.
+Cisco Networking Academy.
+https://developer.mozilla.org/en-US/
+https://www.w3schools.com/js/default.asp
+https://ccnadesdecero.es/que-es-mascara-wildcard/
+**DECISIONES TÉCNICAS**
+Termianr, reformular y optimizar las funciones de la sesión anterior.
+**IDEAS DE MEJORA**
+Añadir las partes más gráficas de la aplicación (mostrar la red por colores e información de las subredes)
