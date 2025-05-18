@@ -8,11 +8,6 @@
     let tercerOcteto = null;
     let cuartoOcteto = null;
     let arrayBits= new Array(32);
-    //Para borrar
-    let numBitsRed = 0;
-
-
-
     let numBitsHost = 32;
     let clase = null;
     let tipo= null;
@@ -61,7 +56,7 @@
         }else if(clase === "E"){
             bits=" ";
         };
-        console.log(bits);
+        
        
     }
 /** 
@@ -264,29 +259,28 @@ function dirRedDesdeBinario(cadena){
             for(n; n < 8; n++){
                 octetoBinario += binarioRecibido[n];
             }
-            console.log(octetoBinario);
-        
+            
           octetoA = binarioPorOctetos(octetoBinario);
-          console.log( "A " + octetoA);
+          
         }else if (n > 7 && n < 16){
             for(n; n < 16; n++){
                 octetoBinario += binarioRecibido[n];
             }
             octetoB = binarioPorOctetos(octetoBinario);
-            console.log("B " + octetoB );
+           
         }else if( n > 15 && n < 24){
             for(n; n < 24; n++){
                 octetoBinario += binarioRecibido[n];
             }
             octetoC = binarioPorOctetos(octetoBinario);
-            console.log("C " + octetoC);
+            
     
         }else if( n > 23 && n < 32){
             for(n; n < 32; n++){
                 octetoBinario += binarioRecibido[n];
             }
             octetoD = binarioPorOctetos(octetoBinario);
-            console.log("D" + octetoD);
+           
             salir = true;
         }
     }
@@ -589,9 +583,8 @@ function calcularSubredes(){
   } else {
     return "";
   }
-console.log("BITS "+bitsMascara)
+
 n=parseInt(bitsMascara-mascaraPorDefecto);
 nSubredes=Math.pow(2, n);
-console.log("Numero de subredes "+ nSubredes)
 document.getElementById("numSubredes").textContent =`${nSubredes}`;
 }
