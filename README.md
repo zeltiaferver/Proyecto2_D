@@ -72,7 +72,7 @@ Termianr, reformular y optimizar las funciones de la sesión anterior.
 **IDEAS DE MEJORA**
 Termianr funciones, añadir funcionalidades extras.
 
-## SESION 5 (19/05/2025)
+## SESION 5 (18/05/2025)
 **RESUMEN**
 Hemos solucionado los errores que arratrábamos de sesiones anteriores. Ahora es funcional.
 **DIFICULTADES**
