@@ -90,7 +90,7 @@ botonCalc.addEventListener("click", () => {
         calcularBroadcast()
         calcularWildCard();
         calcularHosts()
-
+        calcularSubredes();
         hostMinMax();
     }
 
@@ -157,7 +157,7 @@ function validacionesBits(){
         alert("Introduce un valor de máscara válido.")
         return false;
     } else if(clase === "A"){
-        if (bitsMascara>=8 && bitsMascara<16){
+        if (bitsMascara>=8 && bitsMascara<30){
             return true;
             
         }  else{
@@ -166,7 +166,7 @@ function validacionesBits(){
         } 
             
     }else if(clase === "B"){
-        if (bitsMascara>=16 && bitsMascara<24){
+        if (bitsMascara>=16 && bitsMascara<30){
             return true;
         }  else{
             alert("La máscara no coincide con la clase de la red.");
@@ -526,7 +526,7 @@ function calcularHexadecimal(cadena) {
     }
 
     let resultado = octetosHexadecimales.join('.');
-    console.log("Hexadecimal: " + resultado);
+    
     
     return resultado;
 
@@ -575,7 +575,23 @@ function separarCadena(cadena) {
  * Funcion para calcular subredes
  */
 function calcularSubredes(){
+    calcularClase();
+    let mascaraPorDefecto;
+    let nSubredes=0;
+    let n;
 
-
-
+    if (clase==="A") {
+    mascaraPorDefecto = 8; 
+  } else if (clase === "B") {
+    mascaraPorDefecto = 16;
+  } else if (clase==="C") {
+    mascaraPorDefecto = 24;
+  } else {
+    return "";
+  }
+console.log("BITS "+bitsMascara)
+n=parseInt(bitsMascara-mascaraPorDefecto);
+nSubredes=Math.pow(2, n);
+console.log("Numero de subredes "+ nSubredes)
+document.getElementById("numSubredes").textContent =`${nSubredes}`;
 }
