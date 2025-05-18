@@ -64,6 +64,10 @@ botonCalc.addEventListener("click", () => {
         calcularHosts()
         calcularSubredes();
         hostMinMax();
+        getIpFromIpify(ip => {
+            document.getElementById("ipPublica").textContent=`${ip}`;
+            console.log('IP pública:', ip);
+        });
 
 
     }
@@ -556,3 +560,14 @@ function calcularSubredes() {
     nSubredes = Math.pow(2, n);
     document.getElementById("numSubredes").textContent = `${nSubredes}`;
 }
+/**
+ * Obtiene la dirección IP pública del usuario utilizando el servicio ipify.org.
+ * Llama a la función de devolución de llamada (callback) con la IP obtenida como argumento.
+ */
+function getIpFromIpify(callback) {
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => callback(data.ip))
+      .catch(error => console.error('Error al obtener IP con ipify:', error));
+  }
+ 
