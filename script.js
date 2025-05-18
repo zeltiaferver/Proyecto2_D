@@ -2,115 +2,114 @@
  * constantes
  */
 
-    const ipCompleta = document.getElementById("dirIp");
-    let primerOcteto = null;
-    let segundoOcteto = null;
-    let tercerOcteto = null;
-    let cuartoOcteto = null;
-    let arrayBits= new Array(32);
-    //Para borrar
-    let numBitsRed = 0;
+const ipCompleta = document.getElementById("dirIp");
+let primerOcteto = null;
+let segundoOcteto = null;
+let tercerOcteto = null;
+let cuartoOcteto = null;
+let arrayBits = new Array(32);
+let numBitsHost = 32;
+let clase = null;
+let tipo = null;
+let mascara = null;
+let bits = null;
+var correcto = false;
+let ipRed;
+let numHosts = 0;
+let bitsMascara;
+let dirBroadcast = "";
+let ipBinario = "";
+let direccionRedBinario = "";
+let dirRedDecimal = "";
+const generarBits = document.getElementById("bitsMascara");
 
-
-
-    let numBitsHost = 32;
-    let clase = null;
-    let tipo= null;
-    let mascara = null;
-    let bits=null;
-    var correcto= false;
-    let ipRed;
-    let numHosts = 0;
-    let bitsMascara; 
-    let dirBroadcast = "";
-    //Variables para la prueba
-    let ipBinarioSinPuntos = "";
-    let ipBinario = "";
-    let direccionRedBinario = "";
-    let dirRedDecimal = "";
-
-    const generarBits= document.getElementById("bitsMascara");
-
-    generarBits.addEventListener("click", () => {
-        obtenerOctetos();
-        validaciones();
-        
-        mascaraDefecto();
-        generarBits.value = `${bits}`;
-    });
-
-    /**
-     * función generar máscara por defecto
-     */
-     function mascaraDefecto(){
-        calcularClase();
-        
-
-        if( clase === "A"){
-            bits=8;
-            
-        }else if( clase === "B"){
-            bits=16;
-            
-        }else if(clase === "C"){
-            bits=24
-            
-        }else if(clase === "D"){
-            bits=" ";
-        
-        }else if(clase === "E"){
-            bits=" ";
-        };
-        console.log(bits);
-       
-    }
-/** 
- * funcionalidad botón
+/**
+ * Función que valida la máscara de red introducida por el ususario y aplica la máscara por defecto
+ * si no se quieren crear subredes.
  */
-const botonCalc= document.getElementById("boton1");
+generarBits.addEventListener("click", () => {
+    obtenerOctetos();
+    validaciones();
+
+    mascaraDefecto();
+    generarBits.value = `${bits}`;
+});
+
+/** 
+ * funcionalidad botón "Cacular red" en index
+ */
+const botonCalc = document.getElementById("boton1");
 
 botonCalc.addEventListener("click", () => {
-    
+
     obtenerOctetos();
 
-    if (validaciones() && validacionesBits() ){
+    if (validaciones() && validacionesBits()) {
         cambioDiv();
-        ip();
-        
+
+        //Mostrar datos
+
+        mostrarDatosIp();
+        let redBinJunto = calcularIpRed();
+        let maskBin = calcularMascara();
+        dirBroadcast = calcularBroadcast(redBinJunto);
+
         obtenerBitsMascara();
         calcularClase();
-        calcularMascara();
+
         calcularTipo();
 
+        calcularWildCard(maskBin);
 
-        quitarPuntos();
-        calcularDireccionRed();
-
-        mostrarIpRed();
-        calcularBroadcast()
-        calcularWildCard();
         calcularHosts()
-
+        calcularSubredes();
         hostMinMax();
+
+
     }
 
 });
 /**
- * función cambio de panel
+ * función cambio de panel en index
  */
-function cambioDiv(){
+function cambioDiv() {
     document.getElementById("entradaIp").style.display = "none";
     document.getElementById("mostrarDatos").style.display = "block";
-    
+
 }
 
+/**
+ * función generar máscara por defecto dependiendo de la clase
+ */
+function mascaraDefecto() {
+    calcularClase();
+
+
+    if (clase === "A") {
+        bits = 8;
+
+    } else if (clase === "B") {
+        bits = 16;
+
+    } else if (clase === "C") {
+        bits = 24
+
+    } else if (clase === "D") {
+        bits = " ";
+
+    } else if (clase === "E") {
+        bits = " ";
+    };
+
+
+}
 
 /**
- * funcion obtener octetos
+ * funcion obtener octetos de la dirección ip
  */
-function obtenerOctetos(){
-    
-     [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto]= ipCompleta.value.split(".")
+function obtenerOctetos() {
+
+    [primerOcteto, segundoOcteto, tercerOcteto, cuartoOcteto] = ipCompleta.value.split(".")
 
 
 }
@@ -118,24 +117,25 @@ function obtenerOctetos(){
 /**
  * función para obtener los bits de la mascara
  */
-function obtenerBitsMascara(){
+function obtenerBitsMascara() {
     bitsMascara = generarBits.value;
 }
+
 /**
- * funcion validaciones
+ * funcion validaciones de ip introducida
  */
-function validaciones(){
+function validaciones() {
 
     const pattern = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$/;
 
-    if (primerOcteto==""|| segundoOcteto==""||tercerOcteto==""||cuartoOcteto==""){
+    if (primerOcteto == "" || segundoOcteto == "" || tercerOcteto == "" || cuartoOcteto == "") {
         alert("Rellena todos los campos.");
         return false;
 
-    }else if(!pattern.test(primerOcteto) ||
-            !pattern.test(segundoOcteto) ||
-            !pattern.test(tercerOcteto) ||
-            !pattern.test(cuartoOcteto)){
+    } else if (!pattern.test(primerOcteto) ||
+        !pattern.test(segundoOcteto) ||
+        !pattern.test(tercerOcteto) ||
+        !pattern.test(cuartoOcteto)) {
         alert("Introduce campos válidos.")
         return false;
     }
@@ -143,380 +143,359 @@ function validaciones(){
     segundoOcteto = parseInt(segundoOcteto);
     tercerOcteto = parseInt(tercerOcteto);
     cuartoOcteto = parseInt(cuartoOcteto);
-return true;
+    return true;
 }
-    /**
- * funcion validacion de los bits
- */
+/**
+* funcion validacion de máscara de red
+*/
 
-function validacionesBits(){
+function validacionesBits() {
     calcularClase();
     obtenerBitsMascara();
 
-    if (bitsMascara>30 || bitsMascara<8){
+    if (bitsMascara > 30 || bitsMascara < 8) {
         alert("Introduce un valor de máscara válido.")
         return false;
-    } else if(clase === "A"){
-        if (bitsMascara>=8 && bitsMascara<16){
+    } else if (clase === "A") {
+        if (bitsMascara >= 8 && bitsMascara <= 30) {
             return true;
-            
-        }  else{
+
+        } else {
             alert("La máscara no coincide con la clase de la red.");
             return false;
-        } 
-            
-    }else if(clase === "B"){
-        if (bitsMascara>=16 && bitsMascara<24){
+        }
+
+    } else if (clase === "B") {
+        if (bitsMascara >= 16 && bitsMascara <= 30) {
             return true;
-        }  else{
+        } else {
             alert("La máscara no coincide con la clase de la red.");
             return false;
-        } 
-           
-            
-    }else if(clase === "C"){
-            if (bitsMascara>=24 && bitsMascara<=30){
+        }
+
+
+    } else if (clase === "C") {
+        if (bitsMascara >= 24 && bitsMascara <= 30) {
             return true;
-        }  else{
+        } else {
             alert("La máscara no coincide con la clase de la red.");
             return false;
-        } 
-            
-    } else if(clase === "D" || clase === "E"){
-        if (bitsMascara=" " ){
+        }
+
+    } else if (clase === "D" || clase === "E") {
+        if (bitsMascara = " ") {
             return true;
-        }else if(bitsMascara<=30){
+        } else if (bitsMascara <= 30) {
             return true;
-        } else if(bitsMascara>30){
-        alert("Introduce un valor de máscara válido.")
-        return false;
-        } 
+        } else if (bitsMascara > 30) {
+            alert("Introduce un valor de máscara válido.")
+            return false;
+        }
     }
-    
+
 
 
 }
 /**
- * función recoge la ip introducida
+ * función recoge la ip introducida, la muestra , la covierte a binario y hexadecimal
  */
-function ip(){
-    var ipCompleta = document.getElementById("dirIp").value;
-    console.log( "IP completa: " + ipCompleta);
-    const hex= calcularHexadecimal(ipCompleta)
+function mostrarDatosIp() {
+    let ipCompletaValue = ipCompleta.value;
+    const hex = calcularHexadecimal(ipCompletaValue)
 
 
-    ipBinario = convertirABinario(ipCompleta);
+    ipBinario = convertirABinario(ipCompletaValue);
+    ipBinarioSinPuntos = quitarPuntos(ipBinario);
     document.getElementById("redBinario").textContent = `${ipBinario}`;
-    document.getElementById("ipIntroducida").textContent = `${ipCompleta}`;
+    document.getElementById("ipIntroducida").textContent = `${ipCompletaValue}`;
     document.getElementById("redHexadecimal").textContent = `${hex}`;
 
 }
 
-//Funcion para quitar los puntos de la ipBinario
-function quitarPuntos(){
-    for(let i = 0; i < ipBinario.length;i++){
-        if(ipBinario[i]!="."){
-            ipBinarioSinPuntos+=ipBinario[i];
-        }
-    }
+/**
+ *Función que calcula todos los parámetros de la dirección de red.
+ * Retorna la dirección en binario sin separar 
+ */
 
-    console.log(ipBinario)
-    console.log("Ip sin puntos: " + ipBinarioSinPuntos)
+
+function calcularIpRed() {
+    let recogeBinarioConPuntos = "";
+    let recogeBinariosSinPuntos = "";
+    let redBinariaAMostrar = "";
+    let redDecimal = "";
+    let redHexadecimal = "";
+
+    recogeBinarioConPuntos = convertirABinario(ipCompleta.value);
+
+    recogeBinariosSinPuntos = quitarPuntos(recogeBinarioConPuntos);
+
+    redBinariaAMostrar = calcularDireccionRed(recogeBinariosSinPuntos);
+
+    redDecimal = dirRedDesdeBinario(redBinariaAMostrar);
+
+    redHexadecimal = calcularHexadecimal(redDecimal);
+
+    redBinariaAMostrar = separarBinario(redBinariaAMostrar);
+
+
+
+    document.getElementById("DirBinario").textContent = `${redBinariaAMostrar}`;
+    document.getElementById("DirRed").textContent = `${redDecimal}/ ${generarBits.value}`;
+    document.getElementById("DirHexa").textContent = `${redHexadecimal}`;
+
+    return recogeBinariosSinPuntos;
+
 }
 
-//Funcion de prueba para conseguir dirección de red en binario
-function calcularDireccionRed(cadena){
-    let binarioRecibido = cadena;
-    
 
-    for(let i = 0; i < bitsMascara; i++){
+/**
+ * Funcion para quitar los puntos de la ipBinario
+ * @param {*} direccionBinaria Dirección ip en octetos binarios
+ * @returns Retorna ip binaria sin separar en octetos
+ */
+function quitarPuntos(direccionBinaria) {
+
+    let ipBinarioSinPuntos = "";
+
+    for (let i = 0; i < direccionBinaria.length; i++) {
+        if (direccionBinaria[i] != ".") {
+            ipBinarioSinPuntos += direccionBinaria[i];
+        }
+    }
+    return ipBinarioSinPuntos;
+}
+
+/**
+ * Funcion que rellena la dirección de red dependiendo de la dirección y la máscara introducidas
+ * @param {*} cadena Dirección ip intorducida en binario
+ * @returns Dirección de red en formato binario
+ */
+function calcularDireccionRed(cadena) {
+    let binarioRecibido = cadena;
+
+
+    for (let i = 0; i < bitsMascara; i++) {
         direccionRedBinario += ipBinarioSinPuntos[i];
     }
 
-    
-    while(direccionRedBinario.length <32){
+
+    while (direccionRedBinario.length < 32) {
         direccionRedBinario += "0";
     }
 
-    let hola = direccionRedBinario;
     dirRedDesdeBinario(direccionRedBinario);
-    console.log("direccion red en binario: " + direccionRedBinario);
+    return direccionRedBinario;
 
-    
+
 }
 
-//Función para calcular direccion de red desde direccionRedBinario
-function dirRedDesdeBinario(cadena){
+/**
+ * Función que convierte desde binario a decimal y separa con puntos en formato ip
+ * Redibe la cadena en binario sin separar y retorna la ip en formato ip (Ej: 192.168.0.1)
+ */
+function dirRedDesdeBinario(cadena) {
     let binarioRecibido = cadena;
-    let octetoBinario;
-    let n = 0;
-    let salir = false;
-    let decimal ="";
+
+    let decimal = "";
     let octetoA = 0;
     let octetoB = 0;
     let octetoC = 0;
     let octetoD = 0;
-    while(!salir){
+    octetoA = binarioPorOctetos(binarioRecibido.substr(0, 8));
+    octetoB = binarioPorOctetos(binarioRecibido.substr(8, 8));
+    octetoC = binarioPorOctetos(binarioRecibido.substr(16, 8));
+    octetoD = binarioPorOctetos(binarioRecibido.substr(24, 8));
 
-        octetoBinario ="";
-        if( n < 8 ){
-            
-            for(n; n < 8; n++){
-                octetoBinario += binarioRecibido[n];
-            }
-            console.log(octetoBinario);
-        
-          octetoA = binarioPorOctetos(octetoBinario);
-          console.log( "A " + octetoA);
-        }else if (n > 7 && n < 16){
-            for(n; n < 16; n++){
-                octetoBinario += binarioRecibido[n];
-            }
-            octetoB = binarioPorOctetos(octetoBinario);
-            console.log("B " + octetoB );
-        }else if( n > 15 && n < 24){
-            for(n; n < 24; n++){
-                octetoBinario += binarioRecibido[n];
-            }
-            octetoC = binarioPorOctetos(octetoBinario);
-            console.log("C " + octetoC);
-    
-        }else if( n > 23 && n < 32){
-            for(n; n < 32; n++){
-                octetoBinario += binarioRecibido[n];
-            }
-            octetoD = binarioPorOctetos(octetoBinario);
-            console.log("D" + octetoD);
-            salir = true;
-        }
-    }
 
-    decimal = octetoA + "." + octetoB +"." + octetoC+"." + octetoD
 
-    console.log("Direccion de red desde binario: " + decimal);
+    decimal = octetoA + "." + octetoB + "." + octetoC + "." + octetoD
+
 
     return decimal;
-    
+
 }
 
 /**
  * Función para convertir a decimal desde binario por octetos
  */
-function binarioPorOctetos(octeto){
+function binarioPorOctetos(octeto) {
     let octetoRecibido = octeto;
     let octetoDecimal = 0;
 
     for (let i = 0; i < octetoRecibido.length; i++) {
         octetoDecimal += parseInt(octetoRecibido[i] * 2 ** (octetoRecibido.length - 1 - i));
-     }
-     return octetoDecimal;
+    }
+    return octetoDecimal;
 }
 
 /**
  * funcion calcular clase de la red
  */
-function calcularClase(){
-    if(primerOcteto < 128){
+function calcularClase() {
+    if (primerOcteto < 128) {
         clase = "A";
-        
-    }else if( primerOcteto>= 128 && primerOcteto < 192){
+
+    } else if (primerOcteto >= 128 && primerOcteto < 192) {
         clase = "B";
-        
-    }else if(primerOcteto >= 192 && primerOcteto < 224){
+
+    } else if (primerOcteto >= 192 && primerOcteto < 224) {
         clase = "C";
-        
-    }else if(primerOcteto >= 224 && primerOcteto < 240){
+
+    } else if (primerOcteto >= 224 && primerOcteto < 240) {
         clase = "D";
-       
-    }else if(primerOcteto >= 240 && primerOcteto < 256){
+
+    } else if (primerOcteto >= 240 && primerOcteto < 256) {
         clase = "E";
-       
+
     }
-    document.getElementById("clase").textContent =`${clase}`;
+    document.getElementById("clase").textContent = `${clase}`;
     return clase;
 }
 
 /**
- * funcion calcular mascara
+ * Función que calcula la máscara en formato decimal, binario y hexadecimal
  */
-function calcularMascara(){
+function calcularMascara() {
     let mascaraBinario = "";
-    
-    switch(clase){
-        case "A":
-            mascara = "255.0.0.0";
-            ipRed = primerOcteto + ".0.0.0";
-            numBitsRed = 8;
-            break;
-        case "B":
-            mascara = "255.255.0.0";
-            ipRed = primerOcteto + "." + segundoOcteto + ".0.0";
-            numBitsRed = 16;
-            break;
-        case "C":
-            mascara = "255.255.255.0";
-            ipRed = primerOcteto + "." + segundoOcteto + "." + tercerOcteto + ".0";
-            numBitsRed = 24;
-            break;
-       case "D":
-            mascara = "Sin máscara por defecto";
-            ipRed = "Sin dirección de red";
-            break;
-        case "E":
-            mascara = "Sin máscara por defecto";
-            ipRed = "Sin dirección de red";
-            break;
-        default:
-            mascara = "Error";
-            break;
 
-    }
-    if(mascara !== "Sin máscara por defecto" && mascara !== "Error"){
-        mascaraBinario = convertirABinario(mascara);
-        document.getElementById("mascaraBinario").textContent = `${mascaraBinario}`;
+    for (let i = 0; i < bitsMascara; i++) {
+        mascaraBinario += "1";
     }
 
 
-    document.getElementById("mascaraSubred").textContent =`${mascara}`;
+    while (mascaraBinario.length < 32) {
+        mascaraBinario += "0";
+    }
+
+    let dirDevolver = mascaraBinario;
+
+
+    let mascaraDecimal = dirRedDesdeBinario(mascaraBinario);
+    let mascaraHexa = calcularHexadecimal(mascaraDecimal)
+
+    mascaraBinario = separarBinario(mascaraBinario);
+
+    document.getElementById("mascaraBinario").textContent = `${mascaraBinario}`;
+    document.getElementById("mascaraSubred").textContent = `${mascaraDecimal}`;
+    document.getElementById("mascaraHexa").textContent = `${mascaraHexa}`;
+    return dirDevolver;
 }
 
 /**
- * Función calcular equipos posibles
+ * Función calcular Host posibles
  */
 
-function calcularHosts(){
-    numBitsHost = 32 - numBitsRed;
+function calcularHosts() {
+    numBitsHost = 32 - bitsMascara;
     numHosts = Math.pow(2, numBitsHost) - 2;
 
-    if(clase==="D" || clase==="E"){
-        numHosts = "Sin hosts por defecto";}
-   
-    document.getElementById("numHosts").textContent =`${numHosts}`;
+    if (clase === "D" || clase === "E") {
+        numHosts = "Sin hosts por defecto";
+    }
+
+    document.getElementById("numHosts").textContent = `${numHosts}`;
 }
 /**
- * funcion host minimo y host maximo
+ * Función que calcula la primera y última dirección disponibles en la red
  */
-function hostMinMax(){
+function hostMinMax() {
     obtenerOctetos(ipCompleta);
-    let min= primerOcteto+"."+segundoOcteto+"."+tercerOcteto+"."+(parseInt(cuartoOcteto) + 1);
-    
-    let [o1, o2, o3, o4]= dirBroadcast.split(".");
-    let max =o1+"."+o2+"."+o3+"."+( o4- 1);
-    
-    
-    document.getElementById("hostMin").textContent =min;
-    document.getElementById("hostMax").textContent =max;
+    let min = primerOcteto + "." + segundoOcteto + "." + tercerOcteto + "." + (parseInt(cuartoOcteto) + 1);
+
+    let [o1, o2, o3, o4] = dirBroadcast.split(".");
+    let max = o1 + "." + o2 + "." + o3 + "." + (o4 - 1);
+
+
+    document.getElementById("hostMin").textContent = min;
+    document.getElementById("hostMax").textContent = max;
 }
 
-/**
- * funcion mostrar dirección red
- */
-function mostrarIpRed(){
-    let ipRedBinario = "";
-    ipRedBinario = convertirABinario(ipRed);
-    document.getElementById("DirBinario").textContent = `${ipRedBinario}`;
-    document.getElementById("DirRed").textContent =`${ipRed}/ ${bitsMascara}`;
 
-}
 /**
- * funcion calcular tipo
+ * Función que calcula el tipo de red (publica o privada) dependiendo de la ip
  */
-function calcularTipo(){
-    if(clase==="A" && primerOcteto===10){
-        tipo="Privada";
-    }else if(clase=== "B" && primerOcteto===172 && segundoOcteto>=16 &&segundoOcteto<=31){
-        tipo="Privada";
-    }else if(clase==="C" && primerOcteto===192 && segundoOcteto===168){
-        tipo="Privada";
-    }else{
-        tipo="Pública";
+function calcularTipo() {
+    if (clase === "A" && primerOcteto === 10) {
+        tipo = "Privada";
+    } else if (clase === "B" && primerOcteto === 172 && segundoOcteto >= 16 && segundoOcteto <= 31) {
+        tipo = "Privada";
+    } else if (clase === "C" && primerOcteto === 192 && segundoOcteto === 168) {
+        tipo = "Privada";
+    } else {
+        tipo = "Pública";
     }
-    document.getElementById("tipoRed").textContent =`${tipo}`;
+    document.getElementById("tipoRed").textContent = `${tipo}`;
 }
 
-/**
- * funcion calcular numero de bits
- */
-function mostarBits(){
-    let n = 0;
-    while( n < numBits){
-        arrayBits.push("1");
-        n++;
-    }
-    while( n < arrayBits.length){
-        arrayBits.push("0");
-        n++;
-    }
-
-}
 
 /**
- * función para calcular la dirección broadcast
+ * función para calcular la dirección broadcast en formato decimal, binario y hexadecimal
  */
-function calcularBroadcast(){
-    
-    let dirBroadcastBinario = "";
-    let octetoUno = 255;
-    let octetoDos = 255;
-    let octetoTres = 255;
-    let octetoCuatro = 255;
-    
+function calcularBroadcast(cadena) {
+    let dir = cadena.substr(0, Number(bitsMascara));
 
-    if(clase==="A"){
-        octetoUno= primerOcteto;
-    }else if(clase==="B"){
-        octetoUno= primerOcteto;
-        octetoDos= segundoOcteto;
-    }else if(clase==="C"){
-        octetoUno= primerOcteto;
-        octetoDos= segundoOcteto;
-        octetoTres= tercerOcteto;
+    for (let i = 0; dir.length < 32; i++) {
+        dir += "1";
     }
-    dirBroadcast = `${octetoUno}.${octetoDos}.${octetoTres}.${octetoCuatro}`;
 
-    dirBroadcastBinario = convertirABinario(dirBroadcast);
+    dirBroadcastBinario = dir;
+    let dirBroadcast = dirRedDesdeBinario(dir);
+    let broadcastHexa = calcularHexadecimal(dirBroadcast);
+    dirBroadcastBinario = separarBinario(dirBroadcastBinario);
 
     //Imprime
     document.getElementById("broadcastBinario").textContent = `${dirBroadcastBinario}`;
-    document.getElementById("ipBroadcast").textContent =`${dirBroadcast}`;
+    document.getElementById("ipBroadcast").textContent = `${dirBroadcast}`;
+    document.getElementById("broadcastHexa").textContent = `${broadcastHexa}`;
+    return dirBroadcast;
 }
 /**
- * función para calcular la dirección wildcard
+ * función para calcular la dirección wildcard en formato decimal, binario y hexadecimal
  */
-function calcularWildCard(){
+function calcularWildCard(maskBin) {
+    let maskRed = maskBin;
     let dirWildCard = "";
-    let octeto1 = 0;
-    let octeto2 = 0;
-    let octeto3 = 0;
-    let octeto4 = 0;
     let wildcardBinario = "";
 
-    if(clase==="A") {
-        octeto2=255;
-        octeto3=255;
-        octeto4=255;
-    }else if(clase==="B"){
-        octeto3=255;
-        octeto4=255;
-    }else if(clase==="C"){
-        octeto4=255;
-    } 
-    
-    if(clase==="D"|| clase==="E"){
-        dirWildCard="Sin wildcard por defecto";
-    }else{
-        dirWildCard = `${octeto1}.${octeto2}.${octeto3}.${octeto4}`;
-        wildcardBinario = convertirABinario(dirWildCard);
-        document.getElementById("wildcardBinario").textContent = `${wildcardBinario}`;
+
+    for (let i = 0; i < maskRed.length; i++) {
+        if (maskRed[i] == "1") {
+            wildcardBinario += 0;
+        } else {
+            wildcardBinario += 1;
+        }
     }
 
-    document.getElementById("wildcard").textContent =`${dirWildCard}`;
+    dirWildCard = dirRedDesdeBinario(wildcardBinario);
+    let WildCardhex = calcularHexadecimal(dirWildCard);
+    wildcardBinario = separarBinario(wildcardBinario);
+    1
+    document.getElementById("wildcardBinario").textContent = `${wildcardBinario}`;
+    document.getElementById("wildcard").textContent = `${dirWildCard}`;
+    document.getElementById("wildCardHexa").textContent = `${WildCardhex}`;
+}
+
+
+/**
+ * Función que formatea una cadena binaria en octetos
+ * @param {*} cadena Cadena en binario sin separar en octetos
+ * @returns Cadena separada
+ */
+function separarBinario(cadena) {
+    let cadenaAJuntar = cadena;
+    cadenaAJuntar = cadenaAJuntar.substr(0, 8) + "." +
+        cadenaAJuntar.substr(8, 8) + "." +
+        cadenaAJuntar.substr(16, 8) + "." +
+        cadenaAJuntar.substr(24, 8);
+    return cadenaAJuntar
+
 }
 /**
  * funcion calcular hexadecimal
  */
 function calcularHexadecimal(cadena) {
-    let cadenaSeparada = separarCadena(cadena);
+    let cadenaASeparar = cadena;
+    let cadenaSeparada = separarCadena(cadenaASeparar);
     let octetosHexadecimales = [];
 
     for (let i = 0; i < cadenaSeparada.length; i++) {
@@ -526,11 +505,7 @@ function calcularHexadecimal(cadena) {
     }
 
     let resultado = octetosHexadecimales.join('.');
-    console.log("Hexadecimal: " + resultado);
-    
     return resultado;
-
-
 }
 
 
@@ -539,10 +514,9 @@ function calcularHexadecimal(cadena) {
  * y la convierte a binario, asegurándose de que cada octeto tenga 8 bits.
  */
 function convertirABinario(cadena) {
+    let cadenaAConvertir = cadena;
 
-    console.log("Cadena original: " + cadena);
-
-    let cadenaSeparada = separarCadena(cadena);
+    let cadenaSeparada = separarCadena(cadenaAConvertir);
 
     let cadenaBinaria = "";
     let octetoBinario = "";
@@ -550,8 +524,8 @@ function convertirABinario(cadena) {
     for (let i = 0; i < cadenaSeparada.length; i++) {
         octetoBinario = cadenaSeparada[i].toString(2); // Convertir a binario
         octetoBinario = octetoBinario.padStart(8, '0'); // Asegurarse de que tenga 8 bits)
-        cadenaBinaria += octetoBinario ;
-        if ( i < cadenaSeparada.length - 1){
+        cadenaBinaria += octetoBinario;
+        if (i < cadenaSeparada.length - 1) {
             cadenaBinaria += ".";
         }
     }
@@ -559,12 +533,12 @@ function convertirABinario(cadena) {
 }
 
 /**
- * Función para separar Strings
+ * Función para separar una ip en octetos
  */
 function separarCadena(cadena) {
-    let cadenaSeparada = cadena.split(".");
+    let cadenaASeparar = cadena;
+    let cadenaSeparada = cadenaASeparar.split(".");
 
-    console.log("Cadena separada: " + cadenaSeparada);
     for (let i = 0; i < cadenaSeparada.length; i++) {
         cadenaSeparada[i] = parseInt(cadenaSeparada[i]); // Convertir cada octeto a número
     }
@@ -574,8 +548,11 @@ function separarCadena(cadena) {
 /**
  * Funcion para calcular subredes
  */
-function calcularSubredes(){
+function calcularSubredes() {
+    let nSubredes = 0;
+    let n;
 
-
-
+    n = parseInt(30 - bitsMascara);
+    nSubredes = Math.pow(2, n);
+    document.getElementById("numSubredes").textContent = `${nSubredes}`;
 }
