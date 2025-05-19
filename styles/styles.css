@@ -99,7 +99,7 @@ h1{
     font-family: Silkscreen;
 }
 
-#tablaDatos{
+#tablaDatos, #tablaSubredes{
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -121,4 +121,5 @@ h1{
     text-align: center;
     color: white;
     font-family: Silkscreen;
+    padding-bottom: 5%;
 }
