@@ -574,9 +574,13 @@ function getIpFromIpify(callback) {
 /**boton para mostrar subredes
  * 
  */
-  const botonSubredes = document.getElementById("boton3");
+
+function divsubred(){
+     document.getElementById("mostrarSubredes").style.display = "block";
+}
+const botonSubredes = document.getElementById("boton3");
 
 botonSubredes.addEventListener("click", () => {
+    divsubred();
 
-    
 });
