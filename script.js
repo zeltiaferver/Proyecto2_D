@@ -571,3 +571,12 @@ function getIpFromIpify(callback) {
       .catch(error => console.error('Error al obtener IP con ipify:', error));
   }
  
+/**boton para mostrar subredes
+ * 
+ */
+  const botonSubredes = document.getElementById("boton3");
+
+botonSubredes.addEventListener("click", () => {
+
+    
+});
