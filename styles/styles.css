@@ -74,7 +74,7 @@ h1{
   padding: 10px 20px;
   border: 2px solid white;
 }
-#boton2{
+#boton2, #boton3 {
    display: block;
   margin: 10px auto;
   font-family: Silkscreen;
@@ -99,7 +99,7 @@ h1{
     font-family: Silkscreen;
 }
 
-#tablaDatos{
+#tablaDatos, #tablaSubredes{
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -115,4 +115,11 @@ h1{
     font-family: Silkscreen;
     color: white;
 
+}
+#mostrarSubredes{
+   display: none;
+    text-align: center;
+    color: white;
+    font-family: Silkscreen;
+    padding-bottom: 5%;
 }
