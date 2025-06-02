@@ -22,7 +22,7 @@ body {
   overflow-y: auto;
   position: relative;
   z-index: 0;
-  background-image: url("/img/fondo.jpg");
+  background-image: url("../img/fondo.jpg");
   background-size: cover;
 }
 
